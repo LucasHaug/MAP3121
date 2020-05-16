@@ -37,11 +37,13 @@ def u_3d_graph(u_matrix, x_array, time_array, number_of_points, image_name):
     times_to_plot = np.linspace(time_array[0], time_array[-1], number_of_points)
     positions_to_plot = np.linspace(x_array[0], x_array[-1], number_of_points)
 
+    num_of_decimal_digits = 4
+
     for k in range(0, number_of_points):
-        times_to_plot[k] = round(times_to_plot[k], 3)
+        times_to_plot[k] = round(times_to_plot[k], num_of_decimal_digits)
 
     for i in range(0, number_of_points):
-        positions_to_plot[i] = round(positions_to_plot[i], 3)
+        positions_to_plot[i] = round(positions_to_plot[i], num_of_decimal_digits)
 
     u_to_plot = np.zeros((number_of_points, number_of_points))
 
