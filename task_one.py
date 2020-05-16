@@ -19,29 +19,7 @@ def boundary_conditions(t):
     # Conditions at (t, 0) and (t, 1)
     return 0, 0
 
-def main():
-    # Configuration
-    images_dir = "./images"
-
-    try:
-        os.mkdir(images_dir)
-    except OSError:
-        pass
-
-    # Input parameters
-    N = int(input("Insira o valor de N: "))
-    λ = float(input("Insira o valor de λ: "))
-
-    # Total amount of time in seconds
-    total_time_s = 1
-
-    Δx = 1 / float(N)
-    Δt = λ * (Δx**2)
-
-    M = int(round(total_time_s / Δt))
-
-    print(f"N: {N}, M: {M}, λ: {λ}, Δx: {Δx} e Δt: {Δt}")
-
+def run(letter, N, M, λ, Δx, Δt, images_dir):
     # Create and initializes x array 
     x_array = np.zeros(N + 1)
 
@@ -71,9 +49,6 @@ def main():
         for i in range(1, N):
             U[k + 1][i] = U[k][i] + Δt * (((U[k][i - 1] - 2 * U[k][i] + U[k][i + 1]) / (Δx**2)) + f_function(time_array[k], x_array[i]))
 
-    plotter.u_2d_graph(U, x_array, time_array, 11, f"{N}_{round(λ * 100)}", False, True, images_dir)
+    plotter.u_2d_graph(U, x_array, time_array, 11, f"1{letter.capitalize()}_{N}_{round(λ * 100)}", True, False, images_dir)
 
-    plotter.u_3d_graph(U, x_array, time_array, N, f"{N}_{round(λ * 100)}", False, True, images_dir)
-
-if __name__ == "__main__":
-    main()
+    plotter.u_3d_graph(U, x_array, time_array, N, f"1{letter.capitalize()}_{N}_{round(λ * 100)}", True, False, images_dir)
