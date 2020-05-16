@@ -56,7 +56,7 @@ def main():
 
     plotter.u_2d_graph(U, x_array, t_array, 11, f"{N}_{round(λ * 100)}")
 
-    plotter.u_3d_graph(U, x_array, t_array, 110, 110, f"{N}_{round(λ * 100)}")
+    plotter.u_3d_graph(U, x_array, t_array, N, f"{N}_{round(λ * 100)}")
 
 if __name__ == "__main__":
     main()
