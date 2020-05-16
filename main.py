@@ -2,6 +2,7 @@
 
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 from math import sin, cos
 
 import plotter
@@ -15,6 +16,14 @@ def initial_condition(x):
     return result
 
 def main():
+    # Configuration
+    images_dir = "./images"
+
+    try:
+        os.mkdir(images_dir)
+    except OSError:
+        pass
+
     # Input parameters
     N = int(input("Insira o valor de N: "))
     λ = float(input("Insira o valor de λ: "))
@@ -54,9 +63,9 @@ def main():
         for i in range(1, N):
             U[k + 1][i] = U[k][i] + Δt * (((U[k][i - 1] - 2 * U[k][i] + U[k][i + 1]) / (Δx**2)) + f_function(t_array[k], x_array[i]))
 
-    plotter.u_2d_graph(U, x_array, t_array, 11, f"{N}_{round(λ * 100)}")
+    plotter.u_2d_graph(U, x_array, t_array, 11, f"{N}_{round(λ * 100)}", False, True, images_dir)
 
-    plotter.u_3d_graph(U, x_array, t_array, N, f"{N}_{round(λ * 100)}")
+    plotter.u_3d_graph(U, x_array, t_array, N, f"{N}_{round(λ * 100)}", False, True, images_dir)
 
 if __name__ == "__main__":
     main()

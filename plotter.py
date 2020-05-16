@@ -3,9 +3,10 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-def u_2d_graph(u_matrix, x_array, time_array, number_of_times_to_plot, image_name):
+def u_2d_graph(u_matrix, x_array, time_array, number_of_times_to_plot, image_name, show_image, save_image, where_to_save):
     # Configuration
-    plt.figure(f"{image_name}_2D")
+    fig_name = f"{image_name}_2D"
+    fig = plt.figure(fig_name)
 
     plt.title('Distribuição de temperatura em função do tempo')
     plt.xlabel('x')
@@ -22,11 +23,17 @@ def u_2d_graph(u_matrix, x_array, time_array, number_of_times_to_plot, image_nam
         plt.plot(x_array, u_matrix[np.searchsorted(time_array, times_to_plot[k], side = 'right') - 1], label = f"t = {times_to_plot[k]}")
 
     plt.legend()
-    plt.show()
 
-def u_3d_graph(u_matrix, x_array, time_array, number_of_points, image_name):
+    if save_image == True:
+        fig.savefig(f"{where_to_save}/{fig_name}.png")
+    
+    if show_image == True:
+        plt.show()
+
+def u_3d_graph(u_matrix, x_array, time_array, number_of_points, image_name, show_image, save_image, where_to_save):
     # Configuration
-    plt.figure(f"{image_name}_3D")
+    fig_name = f"{image_name}_3D"
+    fig = plt.figure(fig_name)
 
     graph = plt.axes(projection = '3d')
     graph.set_title('Distribuição 3D da temperatura em função do tempo')
@@ -56,4 +63,8 @@ def u_3d_graph(u_matrix, x_array, time_array, number_of_points, image_name):
 
     graph.plot_surface(positions_to_plot, times_to_plot, u_to_plot, rstride = 1, cstride = 1, cmap = 'rainbow', edgecolor = 'none')
 
-    plt.show()
+    if save_image == True:
+        fig.savefig(f"{where_to_save}/{fig_name}.png")
+    
+    if show_image == True:
+        plt.show()
