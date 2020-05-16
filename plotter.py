@@ -3,9 +3,10 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-def u_2d_graph(u_matrix, x_array, time_array, number_of_times_to_plot):
+def u_2d_graph(u_matrix, x_array, time_array, number_of_times_to_plot, image_name):
     # Configuration
-    plt.figure("2D")
+    plt.figure(f"2D_{image_name}")
+
     plt.title('Distribuição de temperatura em função do tempo')
     plt.xlabel('x')
     plt.ylabel('U(x)')
@@ -23,9 +24,9 @@ def u_2d_graph(u_matrix, x_array, time_array, number_of_times_to_plot):
     plt.legend()
     plt.show()
 
-def u_3d_graph(u_matrix, x_array, time_array, number_of_times_to_plot, number_of_positions_to_plot):
+def u_3d_graph(u_matrix, x_array, time_array, number_of_times_to_plot, number_of_positions_to_plot, image_name):
     # Configuration
-    plt.figure("3D")
+    plt.figure(f"3D_{image_name}")
 
     graph = plt.axes(projection = '3d')
     graph.set_title('Distribuição 3D da temperatura em função do tempo')
