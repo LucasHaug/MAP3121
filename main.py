@@ -15,6 +15,10 @@ def initial_condition(x):
     result = (x**2) * ((1 - x)**2)
     return result
 
+def boundary_conditions(t):
+    # Conditions at (t, 0) and (t, 1)
+    return 0, 0
+
 def main():
     # Configuration
     images_dir = "./images"
@@ -46,26 +50,30 @@ def main():
         x_array[i] = i / N
 
     # Create and initializes t array 
-    t_array = np.zeros(M + 1)
+    time_array = np.zeros(M + 1)
 
     for k in range(0, M + 1):
-        t_array[k] = k * Δt
+        time_array[k] = k * Δt
 
-    # Boundary Conditions are zero
-    # Initial conditions calculation
+    # Create U matrix
     U = np.zeros((M + 1, N + 1))  
 
+    # Initial conditions calculation
     for i in range(0, N + 1):
         U[0][i] = initial_condition(x_array[i])
+   
+    # Boundary conditions calculation
+    for k in range(0, M + 1):
+        U[k][0], U[k][N] = boundary_conditions(time_array[i])
 
     # Inside points calculation
     for k in range(0, M):
         for i in range(1, N):
-            U[k + 1][i] = U[k][i] + Δt * (((U[k][i - 1] - 2 * U[k][i] + U[k][i + 1]) / (Δx**2)) + f_function(t_array[k], x_array[i]))
+            U[k + 1][i] = U[k][i] + Δt * (((U[k][i - 1] - 2 * U[k][i] + U[k][i + 1]) / (Δx**2)) + f_function(time_array[k], x_array[i]))
 
-    plotter.u_2d_graph(U, x_array, t_array, 11, f"{N}_{round(λ * 100)}", False, True, images_dir)
+    plotter.u_2d_graph(U, x_array, time_array, 11, f"{N}_{round(λ * 100)}", False, True, images_dir)
 
-    plotter.u_3d_graph(U, x_array, t_array, N, f"{N}_{round(λ * 100)}", False, True, images_dir)
+    plotter.u_3d_graph(U, x_array, time_array, N, f"{N}_{round(λ * 100)}", False, True, images_dir)
 
 if __name__ == "__main__":
     main()
