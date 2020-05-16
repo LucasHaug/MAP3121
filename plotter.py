@@ -38,10 +38,10 @@ def u_3d_graph(u_matrix, x_array, time_array, number_of_times_to_plot, number_of
     positions_to_plot = np.linspace(x_array[0], x_array[-1], number_of_positions_to_plot)
 
     for k in range(0, number_of_times_to_plot):
-        times_to_plot[k] = round(times_to_plot[k], 1)
+        times_to_plot[k] = round(times_to_plot[k], 3)
 
     for i in range(0, number_of_positions_to_plot):
-        positions_to_plot[i] = round(positions_to_plot[i], 1)
+        positions_to_plot[i] = round(positions_to_plot[i], 3)
 
     u_to_plot = np.zeros((number_of_times_to_plot, number_of_positions_to_plot))
 
@@ -52,6 +52,6 @@ def u_3d_graph(u_matrix, x_array, time_array, number_of_times_to_plot, number_of
 
     times_to_plot, positions_to_plot = np.meshgrid(times_to_plot, positions_to_plot)
 
-    graph.plot_surface(positions_to_plot, times_to_plot, u_to_plot, rstride = 1, cstride = 1, cmap = 'coolwarm', edgecolor = 'none')
+    graph.plot_surface(positions_to_plot, times_to_plot, u_to_plot, rstride = 1, cstride = 1, cmap = 'rainbow', edgecolor = 'none')
 
     plt.show()

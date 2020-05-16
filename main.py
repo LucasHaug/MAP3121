@@ -54,9 +54,9 @@ def main():
         for i in range(1, N):
             U[k + 1][i] = U[k][i] + Δt * (((U[k][i - 1] - 2 * U[k][i] + U[k][i + 1]) / (Δx**2)) + f_function(t_array[k], x_array[i]))
 
-    plotter.u_2d_graph(U, x_array, t_array, 11, f"{N}_{λ * 100}")
+    plotter.u_2d_graph(U, x_array, t_array, 11, f"{N}_{round(λ * 100)}")
 
-    plotter.u_3d_graph(U, x_array, t_array, 11, 11, f"{N}_{λ * 100}")
+    plotter.u_3d_graph(U, x_array, t_array, 110, 110, f"{N}_{round(λ * 100)}")
 
 if __name__ == "__main__":
     main()
