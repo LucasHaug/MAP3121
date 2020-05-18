@@ -17,7 +17,7 @@ def f_function(t, x, letter):
    
     return result
 
-def f_solution(t, x, letter):
+def u_solution(t, x, letter):
     if letter == "a":
         result = (1 + sin(10 * t)) * (x**2) * ((1 - x)**2)
     elif letter == "b":
@@ -99,8 +99,8 @@ def run(letter, N, M, λ, Δx, Δt, images_dir):
 
     for k in range(0, M):
         for i in range(1, N):
-            first_term = (f_solution(time_array[k + 1], x_array[i], letter) - f_solution(time_array[k], x_array[i], letter)) / Δt
-            second_term = (f_solution(time_array[k], x_array[i - 1], letter) - 2 * f_solution(time_array[k], x_array[i], letter) + f_solution(time_array[k], x_array[i + 1], letter)) / (Δx**2)
+            first_term = (u_solution(time_array[k + 1], x_array[i], letter) - u_solution(time_array[k], x_array[i], letter)) / Δt
+            second_term = (u_solution(time_array[k], x_array[i - 1], letter) - 2 * u_solution(time_array[k], x_array[i], letter) + u_solution(time_array[k], x_array[i + 1], letter)) / (Δx**2)
 
             current_truncation_error = abs(first_term - second_term - f_function(time_array[k], x_array[i], letter))
 
@@ -113,7 +113,7 @@ def run(letter, N, M, λ, Δx, Δt, images_dir):
     max_approx_error = 0
 
     for i in range(0, N):
-        current_approx_error = abs(f_solution(time_array[M], x_array[i], letter) - U[M][i])
+        current_approx_error = abs(u_solution(time_array[M], x_array[i], letter) - U[M][i])
 
         if current_approx_error > max_approx_error:
             max_approx_error = current_approx_error
