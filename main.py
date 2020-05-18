@@ -3,7 +3,9 @@
 import os
 
 import plotter
+
 import task_one
+import task_two
 
 def main():
     # Configuration
@@ -34,7 +36,7 @@ def main():
     if task_number == "1":
         task_one.run(task_letter.lower(), N, M, λ, Δx, Δt, images_dir)
     else: 
-        pass
+        task_two.run(task_letter.lower(), N, M, λ, Δx, Δt, images_dir)
 
     print("Execução finalizada!")
 
