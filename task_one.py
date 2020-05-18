@@ -55,7 +55,7 @@ def run(letter, N, M, λ, Δx, Δt, images_dir):
         # Uses N due to precision
         x_array[i] = i / N
 
-    # Create and initializes t array 
+    # Create and initializes time array 
     time_array = np.zeros(M + 1)
 
     for k in range(0, M + 1):
@@ -77,6 +77,7 @@ def run(letter, N, M, λ, Δx, Δt, images_dir):
         for i in range(1, N):
             U[k + 1][i] = U[k][i] + Δt * (((U[k][i - 1] - 2 * U[k][i] + U[k][i + 1]) / (Δx**2)) + f_function(time_array[k], x_array[i], letter))
 
+    # Plotting u(t, x)
     plotter.u_2d_graph(U, x_array, time_array, 11, f"1{letter.capitalize()}_{N}_{round(λ * 100)}", True, False, images_dir)
 
     plotter.u_3d_graph(U, x_array, time_array, N, f"1{letter.capitalize()}_{N}_{round(λ * 100)}", True, False, images_dir)
