@@ -17,6 +17,18 @@ def f_function(t, x, letter):
    
     return result
 
+def f_solution(t, x, letter):
+    if letter == "a":
+        result = (1 + sin(10 * t)) * (x**2) * ((1 - x)**2)
+    elif letter == "b":
+        pass
+    elif letter == "c":
+        pass
+    else:
+        result = 0
+   
+    return result
+
 def initial_condition(x, letter): 
     if letter == "a":
         result = (x**2) * ((1 - x)**2)
@@ -81,3 +93,29 @@ def run(letter, N, M, λ, Δx, Δt, images_dir):
     plotter.u_2d_graph(U, x_array, time_array, 11, f"1{letter.capitalize()}_{N}_{round(λ * 100)}", True, False, images_dir)
 
     plotter.u_3d_graph(U, x_array, time_array, N, f"1{letter.capitalize()}_{N}_{round(λ * 100)}", True, False, images_dir)
+
+    # Truncation error calculation
+    max_truncation_error = 0
+
+    for k in range(0, M):
+        for i in range(1, N):
+            first_term = (f_solution(time_array[k + 1], x_array[i], letter) - f_solution(time_array[k], x_array[i], letter)) / Δt
+            second_term = (f_solution(time_array[k], x_array[i - 1], letter) - 2 * f_solution(time_array[k], x_array[i], letter) + f_solution(time_array[k], x_array[i + 1], letter)) / (Δx**2)
+
+            current_truncation_error = abs(first_term - second_term - f_function(time_array[k], x_array[i], letter))
+
+            if current_truncation_error > max_truncation_error:
+                max_truncation_error = current_truncation_error
+
+    print(f"O erro máximo de truncamento é {max_truncation_error}")
+
+    # Approximation error calculation for T = 1
+    max_approx_error = 0
+
+    for i in range(0, N):
+        current_approx_error = abs(f_solution(time_array[M], x_array[i], letter) - U[M][i])
+
+        if current_approx_error > max_approx_error:
+            max_approx_error = current_approx_error
+
+    print(f"O erro máximo de aproximação é {max_approx_error}")
