@@ -72,6 +72,11 @@ def boundary_conditions(t, letter):
     return cond_zero, cond_one
 
 def run(letter, N, M, λ, Δx, Δt, results_dir):
+    # Resuls file
+    results_file_name = f"{results_dir}/1{letter.capitalize()}_ERRORS_{N}_{round(λ * 100)}.txt"
+
+    results_file = open(results_file_name, 'w')
+
     # Create and initializes x array 
     x_array = np.zeros(N + 1)
 
@@ -130,7 +135,9 @@ def run(letter, N, M, λ, Δx, Δt, results_dir):
             if current_truncation_error > max_truncation_error:
                 max_truncation_error = current_truncation_error
 
-    print(f"O erro máximo de truncamento é {max_truncation_error}")
+    max_truncation_error_result = f"O erro máximo de truncamento é {max_truncation_error}"
+    print(max_truncation_error_result)
+    results_file.write(max_truncation_error_result + "\n")
 
     # Approximation error calculation for T = 1
     max_approx_error = 0
@@ -141,4 +148,9 @@ def run(letter, N, M, λ, Δx, Δt, results_dir):
         if current_approx_error > max_approx_error:
             max_approx_error = current_approx_error
 
-    print(f"O erro máximo de aproximação é {max_approx_error}")
+    max_approx_error_result = f"O erro máximo de aproximação é {max_approx_error}"
+    print(max_approx_error_result)
+    results_file.write(max_approx_error_result)
+
+    # End task
+    results_file.close()
