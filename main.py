@@ -9,7 +9,7 @@ import task_two
 
 def main():
     # Configuration
-    images_dir = "./images"
+    images_dir = "./results"
 
     try:
         os.mkdir(images_dir)
