@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 
 import numpy as np
-from math import sin, cos
 
 import plotter
 
 def f_function(t, x, N, letter):
     if letter == "a":
-        result = 10 * cos(10 * t) * (x**2) * ((1 - x)**2) - (1 + sin(10 * t)) * (12 * (x**2) - 12 * x + 2)
+        result = 10 * np.cos(10 * t) * (x**2) * ((1 - x)**2) - (1 + np.sin(10 * t)) * (12 * (x**2) - 12 * x + 2)
     elif letter == "b":
         pass
     elif letter == "c":
@@ -29,7 +28,7 @@ def f_function(t, x, N, letter):
 
 def u_solution(t, x, letter):
     if letter == "a":
-        result = (1 + sin(10 * t)) * (x**2) * ((1 - x)**2)
+        result = (1 + np.sin(10 * t)) * (x**2) * ((1 - x)**2)
     elif letter == "b":
         pass
     elif letter == "c":
