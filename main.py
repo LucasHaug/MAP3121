@@ -9,10 +9,10 @@ import task_two
 
 def main():
     # Configuration
-    images_dir = "./images"
+    results_dir = "./results"
 
     try:
-        os.mkdir(images_dir)
+        os.mkdir(results_dir)
     except OSError:
         pass
 
@@ -34,9 +34,9 @@ def main():
     print(f"N: {N}, M: {M}, λ: {λ}, Δx: {Δx} e Δt: {Δt}")
     
     if task_number == "1":
-        task_one.run(task_letter.lower(), N, M, λ, Δx, Δt, images_dir)
+        task_one.run(task_letter.lower(), N, M, λ, Δx, Δt, results_dir)
     else: 
-        task_two.run(task_letter.lower(), N, M, λ, Δx, Δt, images_dir)
+        task_two.run(task_letter.lower(), N, M, λ, Δx, Δt, results_dir)
 
     print("Execução finalizada!")
 
