@@ -16,7 +16,7 @@ def f_function(t, x, N, letter):
         h = 1 / N
         p = 0.25
 
-        if (p - h / 2) <= x and x <= (p + h / 2):
+        if (p - h / 2) <= x <= (p + h / 2):
             gh = N
         else:
             gh = 0
