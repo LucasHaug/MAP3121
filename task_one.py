@@ -4,7 +4,7 @@ import numpy as np
 
 import plotter
 
-def f_function(t, x, N, letter):
+def heat_source(t, x, N, letter):
     if letter == "a":
         result = 10 * np.cos(10 * t) * (x**2) * ((1 - x)**2) - (1 + np.sin(10 * t)) * (12 * (x**2) - 12 * x + 2)
     elif letter == "b":
@@ -99,7 +99,7 @@ def run(letter, N, M, λ, Δx, Δt, images_dir):
     # Inside points calculation
     for k in range(0, M):
         for i in range(1, N):
-            U[k + 1][i] = U[k][i] + Δt * (((U[k][i - 1] - 2 * U[k][i] + U[k][i + 1]) / (Δx**2)) + f_function(time_array[k], x_array[i], N, letter))
+            U[k + 1][i] = U[k][i] + Δt * (((U[k][i - 1] - 2 * U[k][i] + U[k][i + 1]) / (Δx**2)) + heat_source(time_array[k], x_array[i], N, letter))
 
     # Plotting u(t, x)
     plotter.u_2d_graph(U, x_array, time_array, 11, f"1{letter.capitalize()}_APPROX_{N}_{round(λ * 100)}", True, False, images_dir)
@@ -125,7 +125,7 @@ def run(letter, N, M, λ, Δx, Δt, images_dir):
             first_term = (u_solution(time_array[k + 1], x_array[i], letter) - u_solution(time_array[k], x_array[i], letter)) / Δt
             second_term = (u_solution(time_array[k], x_array[i - 1], letter) - 2 * u_solution(time_array[k], x_array[i], letter) + u_solution(time_array[k], x_array[i + 1], letter)) / (Δx**2)
 
-            current_truncation_error = abs(first_term - second_term - f_function(time_array[k], x_array[i], N, letter))
+            current_truncation_error = abs(first_term - second_term - heat_source(time_array[k], x_array[i], N, letter))
 
             if current_truncation_error > max_truncation_error:
                 max_truncation_error = current_truncation_error
