@@ -90,9 +90,20 @@ def run(letter, N, M, λ, Δx, Δt, images_dir):
             U[k + 1][i] = U[k][i] + Δt * (((U[k][i - 1] - 2 * U[k][i] + U[k][i + 1]) / (Δx**2)) + f_function(time_array[k], x_array[i], letter))
 
     # Plotting u(t, x)
-    plotter.u_2d_graph(U, x_array, time_array, 11, f"1{letter.capitalize()}_{N}_{round(λ * 100)}", True, False, images_dir)
+    plotter.u_2d_graph(U, x_array, time_array, 11, f"1{letter.capitalize()}_APPROX_{N}_{round(λ * 100)}", True, False, images_dir)
 
-    plotter.u_3d_graph(U, x_array, time_array, N, f"1{letter.capitalize()}_{N}_{round(λ * 100)}", True, False, images_dir)
+    plotter.u_3d_graph(U, x_array, time_array, N, f"1{letter.capitalize()}_APPROX_{N}_{round(λ * 100)}", True, False, images_dir)
+
+    # Plotting the u solution
+    u_sol = np.zeros((M + 1, N + 1))  
+
+    for k in range(0, M + 1):
+        for i in range(0, N + 1):
+            u_sol[k][i] = u_solution(time_array[k], x_array[i], letter)
+
+    plotter.u_2d_graph(u_sol, x_array, time_array, 11, f"1{letter.capitalize()}_SOL_{N}_{round(λ * 100)}", True, False, images_dir)
+
+    plotter.u_3d_graph(u_sol, x_array, time_array, N, f"1{letter.capitalize()}_SOL_{N}_{round(λ * 100)}", True, False, images_dir)
 
     # Truncation error calculation
     max_truncation_error = 0
