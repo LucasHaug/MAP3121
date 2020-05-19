@@ -73,7 +73,7 @@ def boundary_conditions(t, letter):
 
 def run(letter, N, M, λ, Δx, Δt, results_dir):
     # Resuls file
-    results_file_name = f"{results_dir}/1{letter.capitalize()}_ERRORS_{N}_{round(λ * 100)}.txt"
+    results_file_name = f"{results_dir}/1{letter.capitalize()}_{N}_{round(λ * 100)}_ERRORS.txt"
 
     results_file = open(results_file_name, 'w')
 
@@ -107,9 +107,9 @@ def run(letter, N, M, λ, Δx, Δt, results_dir):
             U[k + 1][i] = U[k][i] + Δt * (((U[k][i - 1] - 2 * U[k][i] + U[k][i + 1]) / (Δx**2)) + heat_source(time_array[k], x_array[i], N, letter))
 
     # Plotting u(t, x)
-    plotter.u_2d_graph(U, x_array, time_array, 11, f"1{letter.capitalize()}_APPROX_{N}_{round(λ * 100)}", True, False, results_dir)
+    plotter.u_2d_graph(U, x_array, time_array, 11, f"1{letter.capitalize()}_{N}_{round(λ * 100)}_APPROX", False, True, results_dir)
 
-    plotter.u_3d_graph(U, x_array, time_array, N, f"1{letter.capitalize()}_APPROX_{N}_{round(λ * 100)}", True, False, results_dir)
+    plotter.u_3d_graph(U, x_array, time_array, N, f"1{letter.capitalize()}_{N}_{round(λ * 100)}_APPROX", False, True, results_dir)
 
     # Plotting the u solution
     u_sol = np.zeros((M + 1, N + 1))  
@@ -118,9 +118,9 @@ def run(letter, N, M, λ, Δx, Δt, results_dir):
         for i in range(0, N + 1):
             u_sol[k][i] = u_solution(time_array[k], x_array[i], letter)
 
-    plotter.u_2d_graph(u_sol, x_array, time_array, 11, f"1{letter.capitalize()}_SOL_{N}_{round(λ * 100)}", True, False, results_dir)
+    plotter.u_2d_graph(u_sol, x_array, time_array, 11, f"1{letter.capitalize()}_{N}_{round(λ * 100)}_SOL", False, True, results_dir)
 
-    plotter.u_3d_graph(u_sol, x_array, time_array, N, f"1{letter.capitalize()}_SOL_{N}_{round(λ * 100)}", True, False, results_dir)
+    plotter.u_3d_graph(u_sol, x_array, time_array, N, f"1{letter.capitalize()}_{N}_{round(λ * 100)}_SOL", False, True, results_dir)
 
     # Truncation error calculation
     max_truncation_error = 0
