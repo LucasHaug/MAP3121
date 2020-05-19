@@ -5,13 +5,23 @@ from math import sin, cos
 
 import plotter
 
-def f_function(t, x, letter):
+def f_function(t, x, N, letter):
     if letter == "a":
         result = 10 * cos(10 * t) * (x**2) * ((1 - x)**2) - (1 + sin(10 * t)) * (12 * (x**2) - 12 * x + 2)
     elif letter == "b":
         pass
     elif letter == "c":
-        pass
+        r = 10000 * (1 - 2 * (t**2))
+
+        h = 1 / N
+        p = 0.25
+
+        if (p - h / 2) <= x and x <= (p + h / 2):
+            gh = N
+        else:
+            gh = 0
+
+        result = r * gh
     else:
         result = 0
    
@@ -23,7 +33,7 @@ def u_solution(t, x, letter):
     elif letter == "b":
         pass
     elif letter == "c":
-        pass
+        result = 0
     else:
         result = 0
    
@@ -35,7 +45,7 @@ def initial_condition(x, letter):
     elif letter == "b":
         pass
     elif letter == "c":
-        pass
+        result = 0
     else:
         result = 0
 
@@ -87,7 +97,7 @@ def run(letter, N, M, λ, Δx, Δt, images_dir):
     # Inside points calculation
     for k in range(0, M):
         for i in range(1, N):
-            U[k + 1][i] = U[k][i] + Δt * (((U[k][i - 1] - 2 * U[k][i] + U[k][i + 1]) / (Δx**2)) + f_function(time_array[k], x_array[i], letter))
+            U[k + 1][i] = U[k][i] + Δt * (((U[k][i - 1] - 2 * U[k][i] + U[k][i + 1]) / (Δx**2)) + f_function(time_array[k], x_array[i], N, letter))
 
     # Plotting u(t, x)
     plotter.u_2d_graph(U, x_array, time_array, 11, f"1{letter.capitalize()}_APPROX_{N}_{round(λ * 100)}", True, False, images_dir)
@@ -113,7 +123,7 @@ def run(letter, N, M, λ, Δx, Δt, images_dir):
             first_term = (u_solution(time_array[k + 1], x_array[i], letter) - u_solution(time_array[k], x_array[i], letter)) / Δt
             second_term = (u_solution(time_array[k], x_array[i - 1], letter) - 2 * u_solution(time_array[k], x_array[i], letter) + u_solution(time_array[k], x_array[i + 1], letter)) / (Δx**2)
 
-            current_truncation_error = abs(first_term - second_term - f_function(time_array[k], x_array[i], letter))
+            current_truncation_error = abs(first_term - second_term - f_function(time_array[k], x_array[i], N, letter))
 
             if current_truncation_error > max_truncation_error:
                 max_truncation_error = current_truncation_error
