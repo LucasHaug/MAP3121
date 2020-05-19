@@ -91,7 +91,7 @@ def run(letter, N, M, λ, Δx, Δt, images_dir):
    
     # Boundary conditions calculation
     for k in range(0, M + 1):
-        U[k][0], U[k][N] = boundary_conditions(time_array[i], letter)
+        U[k][0], U[k][N] = boundary_conditions(time_array[k], letter)
 
     # Inside points calculation
     for k in range(0, M):
