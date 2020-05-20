@@ -71,7 +71,21 @@ def boundary_conditions(t, letter):
 
     return cond_zero, cond_one
 
-def run(letter, N, M, λ, Δx, Δt, results_dir):
+def run(letter, results_dir):
+    # Input parameters
+    N = int(input("Insira o valor de N: "))
+    λ = float(input("Insira o valor de λ: "))
+
+    # Total amount of time in seconds
+    total_time_s = 1
+
+    Δx = 1 / float(N)
+    Δt = λ * (Δx**2)
+
+    M = int(round(total_time_s / Δt))
+
+    print(f"N: {N}, M: {M}, λ: {λ}, Δx: {Δx} e Δt: {Δt}")
+
     # Resuls file
     results_file_name = f"{results_dir}/1{letter.capitalize()}_{N}_{round(λ * 100)}_ERRORS.txt"
 

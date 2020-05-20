@@ -27,24 +27,10 @@ def main():
     except OSError:
         pass
 
-    # Input parameters
-    N = int(input("Insira o valor de N: "))
-    λ = float(input("Insira o valor de λ: "))
-
-    # Total amount of time in seconds
-    total_time_s = 1
-
-    Δx = 1 / float(N)
-    Δt = λ * (Δx**2)
-
-    M = int(round(total_time_s / Δt))
-
-    print(f"N: {N}, M: {M}, λ: {λ}, Δx: {Δx} e Δt: {Δt}")
-
     if task_number == "1":
-        task_one.run(task_letter.lower(), N, M, λ, Δx, Δt, task_result_dir)
+        task_one.run(task_letter.lower(), task_result_dir)
     else:
-        task_two.run(task_letter.lower(), N, M, λ, Δx, Δt, task_result_dir)
+        task_two.run(task_letter.lower(), task_result_dir)
 
     print("Execução finalizada!")
 

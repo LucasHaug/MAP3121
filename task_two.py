@@ -5,5 +5,4 @@ from math import sin, cos
 
 import plotter
 
-def run(letter, N, M, λ, Δx, Δt, images_dir):
-    pass
+def run(letter, task_result_dir):
