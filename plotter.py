@@ -26,7 +26,7 @@ def u_2d_graph(u_matrix, x_array, time_array, number_of_times_to_plot, image_nam
 
     if save_image == True:
         fig.savefig(f"{where_to_save}/{fig_name}.png")
-    
+
     if show_image == True:
         plt.show()
 
@@ -65,6 +65,6 @@ def u_3d_graph(u_matrix, x_array, time_array, number_of_points, image_name, show
 
     if save_image == True:
         fig.savefig(f"{where_to_save}/{fig_name}.png")
-    
+
     if show_image == True:
         plt.show()

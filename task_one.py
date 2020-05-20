@@ -8,7 +8,7 @@ def heat_source(t, x, N, letter):
     if letter == "a":
         result = 10 * np.cos(10 * t) * (x**2) * ((1 - x)**2) - (1 + np.sin(10 * t)) * (12 * (x**2) - 12 * x + 2)
     elif letter == "b":
-        result = 5 * np.exp(t - x) * ((5 * (t**2) * np.cos(5 * t * x)) - (np.sin(5 * t * x) * (2 * t + x))) 
+        result = 5 * np.exp(t - x) * ((5 * (t**2) * np.cos(5 * t * x)) - (np.sin(5 * t * x) * (2 * t + x)))
     elif letter == "c":
         r = 10000 * (1 - 2 * (t**2))
 
@@ -23,7 +23,7 @@ def heat_source(t, x, N, letter):
         result = r * gh
     else:
         result = 0
-   
+
     return result
 
 def u_solution(t, x, letter):
@@ -35,10 +35,10 @@ def u_solution(t, x, letter):
         result = 0
     else:
         result = 0
-   
+
     return result
 
-def initial_condition(x, letter): 
+def initial_condition(x, letter):
     if letter == "a":
         result = (x**2) * ((1 - x)**2)
     elif letter == "b":
@@ -59,7 +59,7 @@ def boundary_conditions(t, letter):
         cond_one = 0
     elif letter == "b":
         # cond_zero = u_solution(t, 0, letter)
-        cond_zero = np.exp(t) 
+        cond_zero = np.exp(t)
         # cond_one = u_solution(t, 1, letter)
         cond_one = np.exp(t - 1) * np.cos(5 * t)
     elif letter == "c":
@@ -78,26 +78,26 @@ def run(letter, N, M, λ, Δx, Δt, results_dir):
     if letter != "c":
         results_file = open(results_file_name, 'w')
 
-    # Create and initializes x array 
+    # Create and initializes x array
     x_array = np.zeros(N + 1)
 
     for i in range(0, N + 1):
         # Uses N due to precision
         x_array[i] = i / N
 
-    # Create and initializes time array 
+    # Create and initializes time array
     time_array = np.zeros(M + 1)
 
     for k in range(0, M + 1):
         time_array[k] = k * Δt
 
     # Create U matrix
-    U = np.zeros((M + 1, N + 1))  
+    U = np.zeros((M + 1, N + 1))
 
     # Initial conditions calculation
     for i in range(0, N + 1):
         U[0][i] = initial_condition(x_array[i], letter)
-   
+
     # Boundary conditions calculation
     for k in range(0, M + 1):
         U[k][0], U[k][N] = boundary_conditions(time_array[k], letter)
@@ -114,7 +114,7 @@ def run(letter, N, M, λ, Δx, Δt, results_dir):
 
     if letter != "c":
         # Plotting the u solution
-        u_sol = np.zeros((M + 1, N + 1))  
+        u_sol = np.zeros((M + 1, N + 1))
 
         for k in range(0, M + 1):
             for i in range(0, N + 1):

@@ -40,10 +40,10 @@ def main():
     M = int(round(total_time_s / Δt))
 
     print(f"N: {N}, M: {M}, λ: {λ}, Δx: {Δx} e Δt: {Δt}")
-    
+
     if task_number == "1":
         task_one.run(task_letter.lower(), N, M, λ, Δx, Δt, task_result_dir)
-    else: 
+    else:
         task_two.run(task_letter.lower(), N, M, λ, Δx, Δt, task_result_dir)
 
     print("Execução finalizada!")
