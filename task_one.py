@@ -154,5 +154,5 @@ def run(letter, N, M, λ, Δx, Δt, results_dir):
         print(max_approx_error_result)
         results_file.write(max_approx_error_result)
 
-    # End task
-    results_file.close()
+        # End task
+        results_file.close()
