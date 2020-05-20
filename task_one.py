@@ -2,74 +2,8 @@
 
 import numpy as np
 
+import problems as pb
 import plotter
-
-def heat_source(t, x, N, letter):
-    if letter == "a":
-        result = 10 * np.cos(10 * t) * (x**2) * ((1 - x)**2) - (1 + np.sin(10 * t)) * (12 * (x**2) - 12 * x + 2)
-    elif letter == "b":
-        result = 5 * np.exp(t - x) * ((5 * (t**2) * np.cos(5 * t * x)) - (np.sin(5 * t * x) * (2 * t + x)))
-    elif letter == "c":
-        r = 10000 * (1 - 2 * (t**2))
-
-        h = 1 / N
-        p = 0.25
-
-        if (p - h / 2) <= x <= (p + h / 2):
-            gh = N
-        else:
-            gh = 0
-
-        result = r * gh
-    else:
-        result = 0
-
-    return result
-
-def u_solution(t, x, letter):
-    if letter == "a":
-        result = (1 + np.sin(10 * t)) * (x**2) * ((1 - x)**2)
-    elif letter == "b":
-        result = np.exp(t - x) * np.cos(5 * t * x)
-    elif letter == "c":
-        result = 0
-    else:
-        result = 0
-
-    return result
-
-def initial_condition(x, letter):
-    if letter == "a":
-        result = (x**2) * ((1 - x)**2)
-    elif letter == "b":
-        # result = u_solution(0, x, letter)
-        result = np.exp(-x)
-    elif letter == "c":
-        result = 0
-    else:
-        result = 0
-
-    return result
-
-def boundary_conditions(t, letter):
-    # Conditions at (t, 0) and (t, 1)
-
-    if letter == "a":
-        cond_zero = 0
-        cond_one = 0
-    elif letter == "b":
-        # cond_zero = u_solution(t, 0, letter)
-        cond_zero = np.exp(t)
-        # cond_one = u_solution(t, 1, letter)
-        cond_one = np.exp(t - 1) * np.cos(5 * t)
-    elif letter == "c":
-        cond_zero = 0
-        cond_one = 0
-    else:
-        cond_zero = 0
-        cond_one = 0
-
-    return cond_zero, cond_one
 
 def run(letter, results_dir):
     # Input parameters
@@ -110,16 +44,16 @@ def run(letter, results_dir):
 
     # Initial conditions calculation
     for i in range(0, N + 1):
-        U[0][i] = initial_condition(x_array[i], letter)
+        U[0][i] = pb.initial_condition(x_array[i], letter)
 
     # Boundary conditions calculation
     for k in range(0, M + 1):
-        U[k][0], U[k][N] = boundary_conditions(time_array[k], letter)
+        U[k][0], U[k][N] = pb.boundary_conditions(time_array[k], letter)
 
     # Inside points calculation
     for k in range(0, M):
         for i in range(1, N):
-            U[k + 1][i] = U[k][i] + Δt * (((U[k][i - 1] - 2 * U[k][i] + U[k][i + 1]) / (Δx**2)) + heat_source(time_array[k], x_array[i], N, letter))
+            U[k + 1][i] = U[k][i] + Δt * (((U[k][i - 1] - 2 * U[k][i] + U[k][i + 1]) / (Δx**2)) + pb.heat_source(time_array[k], x_array[i], N, letter))
 
     # Plotting u(t, x)
     plotter.u_2d_graph(U, x_array, time_array, 11, f"1{letter.capitalize()}_{N}_{round(λ * 100)}_APPROX", False, True, results_dir)
@@ -132,7 +66,7 @@ def run(letter, results_dir):
 
         for k in range(0, M + 1):
             for i in range(0, N + 1):
-                u_sol[k][i] = u_solution(time_array[k], x_array[i], letter)
+                u_sol[k][i] = pb.u_solution(time_array[k], x_array[i], letter)
 
         plotter.u_2d_graph(u_sol, x_array, time_array, 11, f"1{letter.capitalize()}_{N}_{round(λ * 100)}_SOL", False, True, results_dir)
 
@@ -143,10 +77,10 @@ def run(letter, results_dir):
 
         for k in range(0, M):
             for i in range(1, N):
-                first_term = (u_solution(time_array[k + 1], x_array[i], letter) - u_solution(time_array[k], x_array[i], letter)) / Δt
-                second_term = (u_solution(time_array[k], x_array[i - 1], letter) - 2 * u_solution(time_array[k], x_array[i], letter) + u_solution(time_array[k], x_array[i + 1], letter)) / (Δx**2)
+                first_term = (pb.u_solution(time_array[k + 1], x_array[i], letter) - pb.u_solution(time_array[k], x_array[i], letter)) / Δt
+                second_term = (pb.u_solution(time_array[k], x_array[i - 1], letter) - 2 * pb.u_solution(time_array[k], x_array[i], letter) + pb.u_solution(time_array[k], x_array[i + 1], letter)) / (Δx**2)
 
-                current_truncation_error = abs(first_term - second_term - heat_source(time_array[k], x_array[i], N, letter))
+                current_truncation_error = abs(first_term - second_term - pb.heat_source(time_array[k], x_array[i], N, letter))
 
                 if current_truncation_error > max_truncation_error:
                     max_truncation_error = current_truncation_error
@@ -159,7 +93,7 @@ def run(letter, results_dir):
         max_approx_error = 0
 
         for i in range(0, N):
-            current_approx_error = abs(u_solution(time_array[M], x_array[i], letter) - U[M][i])
+            current_approx_error = abs(pb.u_solution(time_array[M], x_array[i], letter) - U[M][i])
 
             if current_approx_error > max_approx_error:
                 max_approx_error = current_approx_error
