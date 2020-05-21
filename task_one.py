@@ -10,7 +10,7 @@ import plotter
 #################################################
 
 ENABLE_ERRORS_CALCULATION = True
-ENABLE_SOLUTION_PLOTTING = True
+ENABLE_SOLUTION_PLOTTING = False
 
 #################################################
 ### Functions Definitions
@@ -91,7 +91,7 @@ def run(letter, task_result_dir):
             for k in range(0, M):
                 for i in range(1, N):
                     first_term = (pb.u_solution(time_array[k + 1], x_array[i], letter)
-                                - pb.u_solution(time_array[k], x_array[i], letter)) / Δt
+                               - pb.u_solution(time_array[k], x_array[i], letter)) / Δt
                     second_term = (pb.u_solution(time_array[k], x_array[i - 1], letter)
                                 - 2 * pb.u_solution(time_array[k], x_array[i], letter)
                                 + pb.u_solution(time_array[k], x_array[i + 1], letter)) / (Δx**2)
