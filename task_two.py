@@ -7,6 +7,19 @@ import problems as pb
 import plotter
 
 def matrix_decomposition(a_matrix_diag, a_matrix_subdiag):
+    array_size = len(a_matrix_diag)
+
+    l_matrix_array = np.zeros(array_size, dtype=float)
+    d_matrix_array = np.zeros(array_size, dtype=float)
+
+    l_matrix_array[0] = 0
+    d_matrix_array[0] = a_matrix_diag[0]
+
+    for i in range(1, array_size):
+        l_matrix_array[i] = a_matrix_subdiag[i] / d_matrix_array[i - 1]
+
+        d_matrix_array[i] = a_matrix_diag[i] - d_matrix_array[i - 1] * ((l_matrix_array[i])**2)
+
     return l_matrix_array, d_matrix_array
 
 def solve_system(a_matrix_diag, a_matrix_subdiag, b_array):
