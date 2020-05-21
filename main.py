@@ -18,10 +18,10 @@ def main():
 
     # Task selection
     task_number = input("Qual tarefa deseja executar 1 ou 2? ")
-    task_letter = input("Qual problema deseja executar:\n"
-                        "a -> f(t, x) = 10*cos*(10t)*(x^2)*(1 − x)^2 − (1 + sin(10t))*(12x^2 − 12x + 2)\n"
+    task_letter = input("\na -> f(t, x) = 10*cos*(10t)*(x^2)*(1 − x)^2 − (1 + sin(10t))*(12x^2 − 12x + 2)\n"
                         "b -> f(t, x) = 5(e^(t - x))*((5(t^2)*cos(5tx)) - (sin(5tx)*(2t + x)))\n"
-                        "c -> f pontual localizada em p = 0.25\n")
+                        "c -> f pontual localizada em p = 0.25\n"
+                        "\nQual desses problemas deseja executar? ")
 
     task_letter = task_letter.lower()
 
