@@ -41,15 +41,15 @@ def solve_system(a_matrix_diag, a_matrix_subdiag, b_array):
     z_array = np.zeros(array_size, dtype=float)
 
     for i in range(0, array_size):
-        z_array[i] = b_array[i] / d_matrix_array[i]
+        z_array[i] = y_array[i] / d_matrix_array[i]
 
     # Third system solution -> L' * x = z
     x_array = np.zeros(array_size, dtype=float)
 
-    x_array[-1] = b_array[-1]
+    x_array[-1] = z_array[-1]
 
     for i in reversed(range(0, array_size - 1)):
-        x_array[i] = b_array[i] - l_matrix_array[i + 1] * x_array[i + 1]
+        x_array[i] = z_array[i] - l_matrix_array[i + 1] * x_array[i + 1]
 
     return x_array
 
