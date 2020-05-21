@@ -106,6 +106,6 @@ def run(letter, task_result_dir):
             U[k + 1][i] = solution[i - 1]
 
     # Plotting u(t, x)
-    plotter.u_2d_graph(U, scale_array, scale_array, 11, f"2{letter.capitalize()}_{N}_{round(λ * 100)}_APPROX", True, False, task_result_dir)
+    plotter.u_2d_graph(U, scale_array, scale_array, 11, f"2{letter.capitalize()}_{N}_APPROX", True, False, task_result_dir)
 
-    plotter.u_3d_graph(U, scale_array, scale_array, N, f"2{letter.capitalize()}_{N}_{round(λ * 100)}_APPROX", True, False, task_result_dir)
+    plotter.u_3d_graph(U, scale_array, scale_array, N, f"2{letter.capitalize()}_{N}_APPROX", True, False, task_result_dir)
