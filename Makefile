@@ -10,7 +10,12 @@ else
 AT :=
 endif
 
-all: first_task second_task
+all: run
+
+run:
+	$(AT)$(PYTHON) $(SCRIPT)
+
+all_tests: first_task second_task
 
 first_task: 1a_task 1b_task 1c_task
 
