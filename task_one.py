@@ -48,12 +48,15 @@ def run(letter, task_result_dir):
     # Inside points calculation
     for k in range(0, M):
         for i in range(1, N):
-            U[k + 1][i] = U[k][i] + Δt * (((U[k][i - 1] - 2 * U[k][i] + U[k][i + 1]) / (Δx**2)) + pb.heat_source(time_array[k], x_array[i], N, letter))
+            U[k + 1][i] = U[k][i] + Δt * (((U[k][i - 1] - 2 * U[k][i] + U[k][i + 1]) / (Δx**2))
+                        + pb.heat_source(time_array[k], x_array[i], N, letter))
 
     # Plotting u(t, x)
-    plotter.u_2d_graph(U, x_array, time_array, 11, f"1{letter.capitalize()}_{N}_{round(λ * 100)}_APPROX", True, False, task_result_dir)
+    approx_image_name = f"1{letter.capitalize()}_{N}_{round(λ * 100)}_APPROX"
 
-    plotter.u_3d_graph(U, x_array, time_array, N, f"1{letter.capitalize()}_{N}_{round(λ * 100)}_APPROX", True, False, task_result_dir)
+    plotter.u_2d_graph(U, x_array, time_array, 11, approx_image_name, True, False, task_result_dir)
+
+    plotter.u_3d_graph(U, x_array, time_array, N, approx_image_name, True, False, task_result_dir)
 
     if letter != "c":
         if ENABLE_SOLUTION_PLOTTING == True:
@@ -64,9 +67,11 @@ def run(letter, task_result_dir):
                 for i in range(0, N + 1):
                     u_sol[k][i] = pb.u_solution(time_array[k], x_array[i], letter)
 
-            plotter.u_2d_graph(u_sol, x_array, time_array, 11, f"1{letter.capitalize()}_{N}_{round(λ * 100)}_SOL", True, False, task_result_dir)
+            sol_image_name = f"1{letter.capitalize()}_{N}_{round(λ * 100)}_SOL"
 
-            plotter.u_3d_graph(u_sol, x_array, time_array, N, f"1{letter.capitalize()}_{N}_{round(λ * 100)}_SOL", True, False, task_result_dir)
+            plotter.u_2d_graph(u_sol, x_array, time_array, 11, sol_image_name, True, False, task_result_dir)
+
+            plotter.u_3d_graph(u_sol, x_array, time_array, N, sol_image_name, True, False, task_result_dir)
 
         if ENABLE_ERRORS_CALCULATION == True:
             # Truncation error calculation
@@ -74,8 +79,11 @@ def run(letter, task_result_dir):
 
             for k in range(0, M):
                 for i in range(1, N):
-                    first_term = (pb.u_solution(time_array[k + 1], x_array[i], letter) - pb.u_solution(time_array[k], x_array[i], letter)) / Δt
-                    second_term = (pb.u_solution(time_array[k], x_array[i - 1], letter) - 2 * pb.u_solution(time_array[k], x_array[i], letter) + pb.u_solution(time_array[k], x_array[i + 1], letter)) / (Δx**2)
+                    first_term = (pb.u_solution(time_array[k + 1], x_array[i], letter)
+                                - pb.u_solution(time_array[k], x_array[i], letter)) / Δt
+                    second_term = (pb.u_solution(time_array[k], x_array[i - 1], letter)
+                                - 2 * pb.u_solution(time_array[k], x_array[i], letter)
+                                + pb.u_solution(time_array[k], x_array[i + 1], letter)) / (Δx**2)
 
                     current_truncation_error = abs(first_term - second_term - pb.heat_source(time_array[k], x_array[i], N, letter))
 
