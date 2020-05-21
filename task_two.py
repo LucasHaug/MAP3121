@@ -57,7 +57,7 @@ def solve_system(a_matrix_diag, a_matrix_subdiag, b_array):
 
 def run(letter, task_result_dir):
     # Input parameters
-    method = (input("Qual método executar: Euler implícitou (e) ou Crank-Nicolson (c)? ")).lower()
+    method = (input("Qual método executar: Euler implícito ou (e) ou Crank-Nicolson (c)? ")).lower()
 
     while method not in ("e", "c"):
         print("Método não encontrado, escolha entre 'e' e 'c'")
