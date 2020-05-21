@@ -68,3 +68,20 @@ def boundary_conditions(t, letter):
         cond_one = 0
 
     return cond_zero, cond_one
+
+def create_u(times_array, positions_array, letter):
+    num_of_times = len(times_array)
+    num_of_position = len(positions_array)
+
+    # Create U matrix
+    U = np.zeros((num_of_times, num_of_position))
+
+    # Initial conditions calculation
+    for i in range(0, num_of_position):
+        U[0][i] = initial_condition(positions_array[i], letter)
+
+    # Boundary conditions calculation
+    for k in range(0, num_of_times):
+        U[k][0], U[k][-1] = boundary_conditions(times_array[k], letter)
+
+    return U

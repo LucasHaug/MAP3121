@@ -40,15 +40,7 @@ def run(letter, results_dir):
         time_array[k] = k * Δt
 
     # Create U matrix
-    U = np.zeros((M + 1, N + 1))
-
-    # Initial conditions calculation
-    for i in range(0, N + 1):
-        U[0][i] = pb.initial_condition(x_array[i], letter)
-
-    # Boundary conditions calculation
-    for k in range(0, M + 1):
-        U[k][0], U[k][N] = pb.boundary_conditions(time_array[k], letter)
+    U = pb.create_u(time_array, x_array, letter)
 
     # Inside points calculation
     for k in range(0, M):

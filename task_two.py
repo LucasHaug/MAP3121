@@ -92,15 +92,7 @@ def run(letter, task_result_dir):
         scale_array[i] = i / N
 
     # Create U matrix
-    U = np.zeros((M + 1, N + 1))
-
-    # Initial conditions calculation
-    for i in range(0, N + 1):
-        U[0][i] = pb.initial_condition(scale_array[i], letter)
-
-    # Boundary conditions calculation
-    for k in range(0, M + 1):
-        U[k][0], U[k][N] = pb.boundary_conditions(scale_array[k], letter)
+    U = pb.create_u(scale_array, scale_array, letter)
 
     # Inside points calculation
     for k in range(0, M):
