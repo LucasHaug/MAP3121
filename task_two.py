@@ -54,6 +54,12 @@ def solve_system(a_matrix_diag, a_matrix_subdiag, b_array):
 
 def run(letter, task_result_dir):
     # Input parameters
+    method = (input("Qual método executar: Euler implícitou (e) ou Crank-Nicolson (c)? ")).lower()
+
+    while method not in ("e", "c"):
+        print("Método não encontrado, escolha entre 'e' e 'c'")
+        method = (input("Qual método executar: Euler implícitou (e) ou Crank-Nicolson (c)? ")).lower()
+
     N = int(input("Insira o valor de N: "))
     M = N
 
@@ -65,8 +71,15 @@ def run(letter, task_result_dir):
     print(f"N: {N}, λ: {λ}, Δx: {Δx} e Δt: {Δt}")
 
     # A Matrix creation
-    a_matrix_diag = np.full(N - 1, 1 + 2 * λ, dtype=float)
-    a_matrix_subdiag = np.full(N - 1, -λ, dtype=float)
+    if method == "e":
+        diag_value = 1 + 2 * λ
+        subdiag_value = -λ
+    else:
+        diag_value = 1 + λ
+        subdiag_value = -λ / 2
+
+    a_matrix_diag = np.full(N - 1, diag_value, dtype=float)
+    a_matrix_subdiag = np.full(N - 1, subdiag_value, dtype=float)
 
     # B array creation
     b_array = np.zeros(N - 1, dtype=float)
@@ -93,12 +106,19 @@ def run(letter, task_result_dir):
     for k in range(0, M):
         # b array calculation
         for i in range(1, N):
-            b_array[i - 1] = U[k][i] + Δt * pb.heat_source(scale_array[k + 1], scale_array[i], N, letter)
+            if method == "e":
+                b_array[i - 1] = U[k][i] + Δt * pb.heat_source(scale_array[k + 1], scale_array[i], N, letter)
+            else:
+                b_array[i - 1] = U[k][i] + (λ / 2) * (U[k][i - 1] - 2 * U[k][i] + U[k][i + 1]) + (Δt / 2) * (pb.heat_source(scale_array[k], scale_array[i], N, letter) + pb.heat_source(scale_array[k + 1], scale_array[i], N, letter))
 
         g1, g2 = pb.boundary_conditions(scale_array[k + 1], letter)
 
-        b_array[0] += λ * g1
-        b_array[-1] += λ * g2
+        if method == "e":
+            b_array[0] += λ * g1
+            b_array[-1] += λ * g2
+        else:
+            b_array[0] += (λ / 2) * g1
+            b_array[-1] += (λ / 2) * g2
 
         solution = solve_system(a_matrix_diag, a_matrix_subdiag, b_array)
 
@@ -111,21 +131,22 @@ def run(letter, task_result_dir):
     plotter.u_3d_graph(U, scale_array, scale_array, N, f"2{letter.capitalize()}_{N}_APPROX", True, False, task_result_dir)
 
     if letter != "c":
-        # Truncation error calculation
-        max_truncation_error = 0
+        if method == "e":
+            # Truncation error calculation
+            max_truncation_error = 0
 
-        for k in range(0, M):
-            for i in range(1, N):
-                first_term = (pb.u_solution(scale_array[k + 1], scale_array[i], letter) - pb.u_solution(scale_array[k], scale_array[i], letter)) / Δt
-                second_term = (pb.u_solution(scale_array[k + 1], scale_array[i - 1], letter) - 2 * pb.u_solution(scale_array[k + 1], scale_array[i], letter) + pb.u_solution(scale_array[k + 1], scale_array[i + 1], letter)) / (Δx**2)
+            for k in range(0, M):
+                for i in range(1, N):
+                    first_term = (pb.u_solution(scale_array[k + 1], scale_array[i], letter) - pb.u_solution(scale_array[k], scale_array[i], letter)) / Δt
+                    second_term = (pb.u_solution(scale_array[k + 1], scale_array[i - 1], letter) - 2 * pb.u_solution(scale_array[k + 1], scale_array[i], letter) + pb.u_solution(scale_array[k + 1], scale_array[i + 1], letter)) / (Δx**2)
 
-                current_truncation_error = abs(first_term - second_term - pb.heat_source(scale_array[k + 1], scale_array[i], N, letter))
+                    current_truncation_error = abs(first_term - second_term - pb.heat_source(scale_array[k + 1], scale_array[i], N, letter))
 
-                if current_truncation_error > max_truncation_error:
-                    max_truncation_error = current_truncation_error
+                    if current_truncation_error > max_truncation_error:
+                        max_truncation_error = current_truncation_error
 
-        max_truncation_error_result = f"O erro máximo de truncamento é {max_truncation_error}"
-        print(max_truncation_error_result)
+            max_truncation_error_result = f"O erro máximo de truncamento é {max_truncation_error}"
+            print(max_truncation_error_result)
 
         # Approximation error calculation for T = 1
         max_approx_error = 0
