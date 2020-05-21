@@ -70,6 +70,12 @@ def run(letter, task_result_dir):
 
     print(f"N: {N}, λ: {λ}, Δx: {Δx} e Δt: {Δt}")
 
+    # Resuls file
+    results_file_name = f"{task_result_dir}/2{letter.capitalize()}_{N}_ERRORS.txt"
+
+    if letter != "c":
+        results_file = open(results_file_name, 'w')
+
     # A Matrix creation
     if method == "e":
         diag_value = 1 + 2 * λ
@@ -139,6 +145,7 @@ def run(letter, task_result_dir):
 
             max_truncation_error_result = f"O erro máximo de truncamento é {max_truncation_error}"
             print(max_truncation_error_result)
+            results_file.write(max_truncation_error_result + "\n")
 
         # Approximation error calculation for T = 1
         max_approx_error = 0
@@ -151,3 +158,7 @@ def run(letter, task_result_dir):
 
         max_approx_error_result = f"O erro máximo de aproximação é {max_approx_error}"
         print(max_approx_error_result)
+        results_file.write(max_approx_error_result)
+
+        # End task
+        results_file.close()
