@@ -2,7 +2,16 @@
 
 import numpy as np
 
+#################################################
+### Functions Definitions
+#################################################
+
 def heat_source(t, x, N, letter):
+    """
+    Calcula o valor da fonte de calor de um determinado problema,
+    em um determinado instante, em uma determinada posição.
+    """
+
     if letter == "a":
         result = 10 * np.cos(10 * t) * (x**2) * ((1 - x)**2) - (1 + np.sin(10 * t)) * (12 * (x**2) - 12 * x + 2)
     elif letter == "b":
@@ -24,7 +33,14 @@ def heat_source(t, x, N, letter):
 
     return result
 
+
+
 def u_solution(t, x, letter):
+    """
+    Caclcula o valor da solução de um determinado problema,
+    em um determinado instante, em uma determinada posição.
+    """
+
     if letter == "a":
         result = (1 + np.sin(10 * t)) * (x**2) * ((1 - x)**2)
     elif letter == "b":
@@ -36,7 +52,14 @@ def u_solution(t, x, letter):
 
     return result
 
+
+
 def initial_condition(x, letter):
+    """
+    Retorna as condições iniciais de u determinado problema em
+    uma determinada posição.
+    """
+
     if letter == "a":
         result = (x**2) * ((1 - x)**2)
     elif letter == "b":
@@ -49,8 +72,16 @@ def initial_condition(x, letter):
 
     return result
 
+
+
 def boundary_conditions(t, letter):
-    # Conditions at (t, 0) and (t, 1)
+    """
+    Retorna as condições de contorno de um determinado problema,
+    em um determinado instante.
+
+    Se retorna primeiro a condição de contorno em x = 0, depois
+    em x = 1.
+    """
 
     if letter == "a":
         cond_zero = 0
@@ -69,7 +100,17 @@ def boundary_conditions(t, letter):
 
     return cond_zero, cond_one
 
+
+
 def create_u(times_array, positions_array, letter):
+    """
+    Cria uma matrix U, dado um vetor com a discretização do tempo
+    e um vetor com a descretização do espaço.
+
+    A matriz é inicializada com as condições de contorno e condições
+    iniciais, dependendo do problema que se está analizando.
+    """
+
     num_of_times = len(times_array)
     num_of_position = len(positions_array)
 

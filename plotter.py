@@ -3,7 +3,19 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+#################################################
+### Functions Definitions
+#################################################
+
 def u_2d_graph(u_matrix, x_array, time_array, number_of_times_to_plot, image_name, show_image, save_image, where_to_save):
+    """
+    Plota os valores da matriz U variando no espaço para uma
+    determinada quantidade de valores de tempo.
+
+    As imagens geradas podem ser mostradas e/ou salvas em um determinado
+    diretório.
+    """
+
     # Configuration
     fig_name = f"{image_name}_2D"
     fig = plt.figure(fig_name)
@@ -30,7 +42,17 @@ def u_2d_graph(u_matrix, x_array, time_array, number_of_times_to_plot, image_nam
     if show_image == True:
         plt.show()
 
+
+
 def u_3d_graph(u_matrix, x_array, time_array, number_of_points, image_name, show_image, save_image, where_to_save):
+    """
+    Plota os valores da matriz U variando no espaço e no tempo, dado um
+    deteminado número de pontos para serem plotados.
+
+    As imagens geradas podem ser mostradas e/ou salvas em um determinado
+    diretório.
+    """
+
     # Configuration
     fig_name = f"{image_name}_3D"
     fig = plt.figure(fig_name)

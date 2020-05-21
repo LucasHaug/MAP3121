@@ -7,6 +7,10 @@ import plotter
 import task_one
 import task_two
 
+#################################################
+### Main Function
+#################################################
+
 def main():
     # Configuration
     results_dir = "./results"
@@ -32,12 +36,14 @@ def main():
     except OSError:
         pass
 
+    # Task running
     if task_number == "1":
         task_one.run(task_letter, task_result_dir)
     else:
         task_two.run(task_letter, task_result_dir)
 
     print("Execução finalizada!")
+
 
 if __name__ == "__main__":
     main()

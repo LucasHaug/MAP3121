@@ -5,10 +5,22 @@ import numpy as np
 import problems as pb
 import plotter
 
+#################################################
+### Public Variables
+#################################################
+
 ENABLE_ERRORS_CALCULATION = True
 ENABLE_SOLUTION_PLOTTING = True
 
+#################################################
+### Functions Definitions
+#################################################
+
 def run(letter, task_result_dir):
+    """
+    Soluciona o problema da equação de calor.
+    """
+
     # Input parameters
     N = int(input("Insira o valor de N: "))
     λ = float(input("Insira o valor de λ: "))
@@ -33,7 +45,6 @@ def run(letter, task_result_dir):
     x_array = np.zeros(N + 1)
 
     for i in range(0, N + 1):
-        # Uses N due to precision
         x_array[i] = i / N
 
     # Create and initializes time array

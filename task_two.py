@@ -5,10 +5,24 @@ import numpy as np
 import problems as pb
 import plotter
 
+#################################################
+### Public Variables
+#################################################
+
 ENABLE_ERRORS_CALCULATION = True
 ENABLE_SOLUTION_PLOTTING = False
 
+#################################################
+### Functions Definitions
+#################################################
+
 def matrix_decomposition(a_matrix_diag, a_matrix_subdiag):
+    """
+    Decompõe uma matrix A tridiagonal simétrica em três matrizes
+    L, D e Lt, retonando apenas dois vetores que representam as
+    matrizes L e D.
+    """
+
     array_size = len(a_matrix_diag)
 
     l_matrix_array = np.zeros(array_size, dtype=float)
@@ -24,8 +38,20 @@ def matrix_decomposition(a_matrix_diag, a_matrix_subdiag):
 
     return l_matrix_array, d_matrix_array
 
+
+
 def solve_system(a_matrix_diag, a_matrix_subdiag, b_array):
-    # L * y = b, D * z = y, L' * x = z
+    """
+    Soluciona um sistema Ax = b, onde A é uma matrix tridiagonal
+    simétrica.
+
+    Para a resolução do sistema, é feita a decomposição de A para L*D*Lt.
+
+    É feita a divisão do problema em três sistemas menores:
+    L * y = b
+    D * z = y
+    Lt * x = z
+    """
 
     array_size = len(a_matrix_diag)
 
@@ -45,7 +71,7 @@ def solve_system(a_matrix_diag, a_matrix_subdiag, b_array):
     for i in range(0, array_size):
         z_array[i] = y_array[i] / d_matrix_array[i]
 
-    # Third system solution -> L' * x = z
+    # Third system solution -> Lt * x = z
     x_array = np.zeros(array_size, dtype=float)
 
     x_array[-1] = z_array[-1]
@@ -55,7 +81,14 @@ def solve_system(a_matrix_diag, a_matrix_subdiag, b_array):
 
     return x_array
 
+
+
 def run(letter, task_result_dir):
+    """
+    Soluciona o problema da equação de calor a partir de dois métodos implícitos,
+    Euler implícito e Crank-Nicolson.
+    """
+
     # Input parameters
     method = (input("Qual método executar: Euler implícito ou (e) ou Crank-Nicolson (c)? ")).lower()
 
@@ -97,7 +130,6 @@ def run(letter, task_result_dir):
     scale_array = np.zeros(N + 1, dtype=float)
 
     for i in range(0, N + 1):
-        # Uses N due to precision
         scale_array[i] = i / N
 
     # Create U matrix
