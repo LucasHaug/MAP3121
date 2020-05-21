@@ -23,6 +23,34 @@ def matrix_decomposition(a_matrix_diag, a_matrix_subdiag):
     return l_matrix_array, d_matrix_array
 
 def solve_system(a_matrix_diag, a_matrix_subdiag, b_array):
+    # L * y = b, D * z = y, L' * x = z
+
+    array_size = len(a_matrix_diag)
+
+    l_matrix_array, d_matrix_array = matrix_decomposition(a_matrix_diag, a_matrix_subdiag)
+
+    # First system solution -> L * y = b
+    y_array = np.zeros(array_size, dtype=float)
+
+    y_array[0] = b_array[0]
+
+    for i in range(1, array_size):
+        y_array[i] = b_array[i] - l_matrix_array[i] * y_array[i - 1]
+
+    # Second system solution -> D * z = y
+    z_array = np.zeros(array_size, dtype=float)
+
+    for i in range(0, array_size):
+        z_array[i] = b_array[i] / d_matrix_array[i]
+
+    # Third system solution -> L' * x = z
+    x_array = np.zeros(array_size, dtype=float)
+
+    x_array[-1] = b_array[-1]
+
+    for i in reversed(range(0, array_size - 1)):
+        x_array[i] = b_array[i] - l_matrix_array[i + 1] * x_array[i + 1]
+
     return x_array
 
 def run(letter, task_result_dir):
