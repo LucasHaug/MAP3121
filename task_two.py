@@ -6,7 +6,7 @@ import problems as pb
 import plotter
 
 ENABLE_ERRORS_CALCULATION = True
-ENABLE_SOLUTION_PLOTTING = True
+ENABLE_SOLUTION_PLOTTING = False
 
 def matrix_decomposition(a_matrix_diag, a_matrix_subdiag):
     array_size = len(a_matrix_diag)
@@ -133,7 +133,17 @@ def run(letter, task_result_dir):
 
     if letter != "c":
         if ENABLE_SOLUTION_PLOTTING == True:
-            pass
+            # Plotting the u solution
+            u_sol = np.zeros((M + 1, N + 1))
+
+            for k in range(0, M + 1):
+                for i in range(0, N + 1):
+                    u_sol[k][i] = pb.u_solution(scale_array[k], scale_array[i], letter)
+
+            plotter.u_2d_graph(u_sol, scale_array, scale_array, 11, f"2{letter.capitalize()}_{N}_SOL", True, False, task_result_dir)
+
+            plotter.u_3d_graph(u_sol, scale_array, scale_array, N, f"2{letter.capitalize()}_{N}_SOL", True, False, task_result_dir)
+
         if ENABLE_ERRORS_CALCULATION == True:
             if method == "e":
                 # Truncation error calculation
