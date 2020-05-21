@@ -5,6 +5,9 @@ import numpy as np
 import problems as pb
 import plotter
 
+ENABLE_ERRORS_CALCULATION = True
+ENABLE_SOLUTION_PLOTTING = True
+
 def matrix_decomposition(a_matrix_diag, a_matrix_subdiag):
     array_size = len(a_matrix_diag)
 
@@ -73,7 +76,7 @@ def run(letter, task_result_dir):
     # Resuls file
     results_file_name = f"{task_result_dir}/2{letter.capitalize()}_{N}_ERRORS.txt"
 
-    if letter != "c":
+    if letter != "c" and ENABLE_ERRORS_CALCULATION == True:
         results_file = open(results_file_name, 'w')
 
     # A Matrix creation
@@ -129,36 +132,39 @@ def run(letter, task_result_dir):
     plotter.u_3d_graph(U, scale_array, scale_array, N, f"2{letter.capitalize()}_{N}_APPROX", True, False, task_result_dir)
 
     if letter != "c":
-        if method == "e":
-            # Truncation error calculation
-            max_truncation_error = 0
+        if ENABLE_SOLUTION_PLOTTING == True:
+            pass
+        if ENABLE_ERRORS_CALCULATION == True:
+            if method == "e":
+                # Truncation error calculation
+                max_truncation_error = 0
 
-            for k in range(0, M):
-                for i in range(1, N):
-                    first_term = (pb.u_solution(scale_array[k + 1], scale_array[i], letter) - pb.u_solution(scale_array[k], scale_array[i], letter)) / Δt
-                    second_term = (pb.u_solution(scale_array[k + 1], scale_array[i - 1], letter) - 2 * pb.u_solution(scale_array[k + 1], scale_array[i], letter) + pb.u_solution(scale_array[k + 1], scale_array[i + 1], letter)) / (Δx**2)
+                for k in range(0, M):
+                    for i in range(1, N):
+                        first_term = (pb.u_solution(scale_array[k + 1], scale_array[i], letter) - pb.u_solution(scale_array[k], scale_array[i], letter)) / Δt
+                        second_term = (pb.u_solution(scale_array[k + 1], scale_array[i - 1], letter) - 2 * pb.u_solution(scale_array[k + 1], scale_array[i], letter) + pb.u_solution(scale_array[k + 1], scale_array[i + 1], letter)) / (Δx**2)
 
-                    current_truncation_error = abs(first_term - second_term - pb.heat_source(scale_array[k + 1], scale_array[i], N, letter))
+                        current_truncation_error = abs(first_term - second_term - pb.heat_source(scale_array[k + 1], scale_array[i], N, letter))
 
-                    if current_truncation_error > max_truncation_error:
-                        max_truncation_error = current_truncation_error
+                        if current_truncation_error > max_truncation_error:
+                            max_truncation_error = current_truncation_error
 
-            max_truncation_error_result = f"O erro máximo de truncamento é {max_truncation_error}"
-            print(max_truncation_error_result)
-            results_file.write(max_truncation_error_result + "\n")
+                max_truncation_error_result = f"O erro máximo de truncamento é {max_truncation_error}"
+                print(max_truncation_error_result)
+                results_file.write(max_truncation_error_result + "\n")
 
-        # Approximation error calculation for T = 1
-        max_approx_error = 0
+            # Approximation error calculation for T = 1
+            max_approx_error = 0
 
-        for i in range(0, N):
-            current_approx_error = abs(pb.u_solution(scale_array[M], scale_array[i], letter) - U[M][i])
+            for i in range(0, N):
+                current_approx_error = abs(pb.u_solution(scale_array[M], scale_array[i], letter) - U[M][i])
 
-            if current_approx_error > max_approx_error:
-                max_approx_error = current_approx_error
+                if current_approx_error > max_approx_error:
+                    max_approx_error = current_approx_error
 
-        max_approx_error_result = f"O erro máximo de aproximação é {max_approx_error}"
-        print(max_approx_error_result)
-        results_file.write(max_approx_error_result)
+            max_approx_error_result = f"O erro máximo de aproximação é {max_approx_error}"
+            print(max_approx_error_result)
+            results_file.write(max_approx_error_result)
 
         # End task
         results_file.close()

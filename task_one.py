@@ -5,6 +5,9 @@ import numpy as np
 import problems as pb
 import plotter
 
+ENABLE_ERRORS_CALCULATION = True
+ENABLE_SOLUTION_PLOTTING = True
+
 def run(letter, task_result_dir):
     # Input parameters
     N = int(input("Insira o valor de N: "))
@@ -23,7 +26,7 @@ def run(letter, task_result_dir):
     # Resuls file
     results_file_name = f"{task_result_dir}/1{letter.capitalize()}_{N}_{round(λ * 100)}_ERRORS.txt"
 
-    if letter != "c":
+    if letter != "c" and ENABLE_ERRORS_CALCULATION == True:
         results_file = open(results_file_name, 'w')
 
     # Create and initializes x array
@@ -53,46 +56,48 @@ def run(letter, task_result_dir):
     plotter.u_3d_graph(U, x_array, time_array, N, f"1{letter.capitalize()}_{N}_{round(λ * 100)}_APPROX", True, False, task_result_dir)
 
     if letter != "c":
-        # Plotting the u solution
-        u_sol = np.zeros((M + 1, N + 1))
+        if ENABLE_SOLUTION_PLOTTING == True:
+            # Plotting the u solution
+            u_sol = np.zeros((M + 1, N + 1))
 
-        for k in range(0, M + 1):
-            for i in range(0, N + 1):
-                u_sol[k][i] = pb.u_solution(time_array[k], x_array[i], letter)
+            for k in range(0, M + 1):
+                for i in range(0, N + 1):
+                    u_sol[k][i] = pb.u_solution(time_array[k], x_array[i], letter)
 
-        plotter.u_2d_graph(u_sol, x_array, time_array, 11, f"1{letter.capitalize()}_{N}_{round(λ * 100)}_SOL", True, False, task_result_dir)
+            plotter.u_2d_graph(u_sol, x_array, time_array, 11, f"1{letter.capitalize()}_{N}_{round(λ * 100)}_SOL", True, False, task_result_dir)
 
-        plotter.u_3d_graph(u_sol, x_array, time_array, N, f"1{letter.capitalize()}_{N}_{round(λ * 100)}_SOL", True, False, task_result_dir)
+            plotter.u_3d_graph(u_sol, x_array, time_array, N, f"1{letter.capitalize()}_{N}_{round(λ * 100)}_SOL", True, False, task_result_dir)
 
-        # Truncation error calculation
-        max_truncation_error = 0
+        if ENABLE_ERRORS_CALCULATION == True:
+            # Truncation error calculation
+            max_truncation_error = 0
 
-        for k in range(0, M):
-            for i in range(1, N):
-                first_term = (pb.u_solution(time_array[k + 1], x_array[i], letter) - pb.u_solution(time_array[k], x_array[i], letter)) / Δt
-                second_term = (pb.u_solution(time_array[k], x_array[i - 1], letter) - 2 * pb.u_solution(time_array[k], x_array[i], letter) + pb.u_solution(time_array[k], x_array[i + 1], letter)) / (Δx**2)
+            for k in range(0, M):
+                for i in range(1, N):
+                    first_term = (pb.u_solution(time_array[k + 1], x_array[i], letter) - pb.u_solution(time_array[k], x_array[i], letter)) / Δt
+                    second_term = (pb.u_solution(time_array[k], x_array[i - 1], letter) - 2 * pb.u_solution(time_array[k], x_array[i], letter) + pb.u_solution(time_array[k], x_array[i + 1], letter)) / (Δx**2)
 
-                current_truncation_error = abs(first_term - second_term - pb.heat_source(time_array[k], x_array[i], N, letter))
+                    current_truncation_error = abs(first_term - second_term - pb.heat_source(time_array[k], x_array[i], N, letter))
 
-                if current_truncation_error > max_truncation_error:
-                    max_truncation_error = current_truncation_error
+                    if current_truncation_error > max_truncation_error:
+                        max_truncation_error = current_truncation_error
 
-        max_truncation_error_result = f"O erro máximo de truncamento é {max_truncation_error}"
-        print(max_truncation_error_result)
-        results_file.write(max_truncation_error_result + "\n")
+            max_truncation_error_result = f"O erro máximo de truncamento é {max_truncation_error}"
+            print(max_truncation_error_result)
+            results_file.write(max_truncation_error_result + "\n")
 
-        # Approximation error calculation for T = 1
-        max_approx_error = 0
+            # Approximation error calculation for T = 1
+            max_approx_error = 0
 
-        for i in range(0, N):
-            current_approx_error = abs(pb.u_solution(time_array[M], x_array[i], letter) - U[M][i])
+            for i in range(0, N):
+                current_approx_error = abs(pb.u_solution(time_array[M], x_array[i], letter) - U[M][i])
 
-            if current_approx_error > max_approx_error:
-                max_approx_error = current_approx_error
+                if current_approx_error > max_approx_error:
+                    max_approx_error = current_approx_error
 
-        max_approx_error_result = f"O erro máximo de aproximação é {max_approx_error}"
-        print(max_approx_error_result)
-        results_file.write(max_approx_error_result)
+            max_approx_error_result = f"O erro máximo de aproximação é {max_approx_error}"
+            print(max_approx_error_result)
+            results_file.write(max_approx_error_result)
 
         # End task
         results_file.close()
