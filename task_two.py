@@ -109,3 +109,32 @@ def run(letter, task_result_dir):
     plotter.u_2d_graph(U, scale_array, scale_array, 11, f"2{letter.capitalize()}_{N}_APPROX", True, False, task_result_dir)
 
     plotter.u_3d_graph(U, scale_array, scale_array, N, f"2{letter.capitalize()}_{N}_APPROX", True, False, task_result_dir)
+
+    if letter != "c":
+        # Truncation error calculation
+        max_truncation_error = 0
+
+        for k in range(0, M):
+            for i in range(1, N):
+                first_term = (pb.u_solution(scale_array[k + 1], scale_array[i], letter) - pb.u_solution(scale_array[k], scale_array[i], letter)) / Δt
+                second_term = (pb.u_solution(scale_array[k + 1], scale_array[i - 1], letter) - 2 * pb.u_solution(scale_array[k + 1], scale_array[i], letter) + pb.u_solution(scale_array[k + 1], scale_array[i + 1], letter)) / (Δx**2)
+
+                current_truncation_error = abs(first_term - second_term - pb.heat_source(scale_array[k + 1], scale_array[i], N, letter))
+
+                if current_truncation_error > max_truncation_error:
+                    max_truncation_error = current_truncation_error
+
+        max_truncation_error_result = f"O erro máximo de truncamento é {max_truncation_error}"
+        print(max_truncation_error_result)
+
+        # Approximation error calculation for T = 1
+        max_approx_error = 0
+
+        for i in range(0, N):
+            current_approx_error = abs(pb.u_solution(scale_array[M], scale_array[i], letter) - U[M][i])
+
+            if current_approx_error > max_approx_error:
+                max_approx_error = current_approx_error
+
+        max_approx_error_result = f"O erro máximo de aproximação é {max_approx_error}"
+        print(max_approx_error_result)
