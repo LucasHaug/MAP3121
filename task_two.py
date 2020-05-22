@@ -96,6 +96,11 @@ def run(letter, task_result_dir):
         print("Método não encontrado, escolha entre 'e' e 'c'")
         method = (input("Qual método executar: Euler implícitou (e) ou Crank-Nicolson (c)? ")).lower()
 
+    if method == "e":
+        method_name = "EULER_IMP"
+    else:
+        method_name = "CN"
+
     N = int(input("Insira o valor de N: "))
     M = N
 
@@ -107,7 +112,7 @@ def run(letter, task_result_dir):
     print(f"N: {N}, λ: {λ}, Δx: {Δx} e Δt: {Δt}")
 
     # Resuls file
-    results_file_name = f"{task_result_dir}/2{letter.capitalize()}_{N}_ERRORS.txt"
+    results_file_name = f"{task_result_dir}/2{letter.capitalize()}_{method_name}_{N}_ERRORS.txt"
 
     if letter != "c" and ENABLE_ERRORS_CALCULATION == True:
         results_file = open(results_file_name, 'w')
@@ -142,7 +147,9 @@ def run(letter, task_result_dir):
             if method == "e":
                 b_array[i - 1] = U[k][i] + Δt * pb.heat_source(scale_array[k + 1], scale_array[i], N, letter)
             else:
-                b_array[i - 1] = U[k][i] + (λ / 2) * (U[k][i - 1] - 2 * U[k][i] + U[k][i + 1]) + (Δt / 2) * (pb.heat_source(scale_array[k], scale_array[i], N, letter) + pb.heat_source(scale_array[k + 1], scale_array[i], N, letter))
+                b_array[i - 1] = (U[k][i] + (λ / 2) * (U[k][i - 1] - 2 * U[k][i] + U[k][i + 1])
+                               + (Δt / 2) * (pb.heat_source(scale_array[k], scale_array[i], N, letter)
+                               + pb.heat_source(scale_array[k + 1], scale_array[i], N, letter)))
 
         g1, g2 = pb.boundary_conditions(scale_array[k + 1], letter)
 
@@ -159,9 +166,11 @@ def run(letter, task_result_dir):
             U[k + 1][i] = solution[i - 1]
 
     # Plotting u(t, x)
-    plotter.u_2d_graph(U, scale_array, scale_array, 11, f"2{letter.capitalize()}_{N}_APPROX", True, False, task_result_dir)
+    approx_image_name = f"2{letter.capitalize()}_{method_name}_{N}_APPROX"
 
-    plotter.u_3d_graph(U, scale_array, scale_array, N, f"2{letter.capitalize()}_{N}_APPROX", True, False, task_result_dir)
+    plotter.u_2d_graph(U, scale_array, scale_array, 11, approx_image_name, True, False, task_result_dir)
+
+    plotter.u_3d_graph(U, scale_array, scale_array, N, approx_image_name, True, False, task_result_dir)
 
     if letter != "c":
         if ENABLE_SOLUTION_PLOTTING == True:
@@ -172,9 +181,11 @@ def run(letter, task_result_dir):
                 for i in range(0, N + 1):
                     u_sol[k][i] = pb.u_solution(scale_array[k], scale_array[i], letter)
 
-            plotter.u_2d_graph(u_sol, scale_array, scale_array, 11, f"2{letter.capitalize()}_{N}_SOL", True, False, task_result_dir)
+            sol_image_name = f"2{letter.capitalize()}_{method_name}_{N}_SOL"
 
-            plotter.u_3d_graph(u_sol, scale_array, scale_array, N, f"2{letter.capitalize()}_{N}_SOL", True, False, task_result_dir)
+            plotter.u_2d_graph(u_sol, scale_array, scale_array, 11, sol_image_name, True, False, task_result_dir)
+
+            plotter.u_3d_graph(u_sol, scale_array, scale_array, N, sol_image_name, True, False, task_result_dir)
 
         if ENABLE_ERRORS_CALCULATION == True:
             if method == "e":
@@ -183,8 +194,11 @@ def run(letter, task_result_dir):
 
                 for k in range(0, M):
                     for i in range(1, N):
-                        first_term = (pb.u_solution(scale_array[k + 1], scale_array[i], letter) - pb.u_solution(scale_array[k], scale_array[i], letter)) / Δt
-                        second_term = (pb.u_solution(scale_array[k + 1], scale_array[i - 1], letter) - 2 * pb.u_solution(scale_array[k + 1], scale_array[i], letter) + pb.u_solution(scale_array[k + 1], scale_array[i + 1], letter)) / (Δx**2)
+                        first_term = (pb.u_solution(scale_array[k + 1], scale_array[i], letter)
+                                   - pb.u_solution(scale_array[k], scale_array[i], letter)) / Δt
+                        second_term = (pb.u_solution(scale_array[k + 1], scale_array[i - 1], letter)
+                                    - 2 * pb.u_solution(scale_array[k + 1], scale_array[i], letter)
+                                    + pb.u_solution(scale_array[k + 1], scale_array[i + 1], letter)) / (Δx**2)
 
                         current_truncation_error = abs(first_term - second_term - pb.heat_source(scale_array[k + 1], scale_array[i], N, letter))
 
