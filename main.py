@@ -18,7 +18,7 @@ def main():
     try:
         os.mkdir(results_dir)
     except OSError:
-        pass
+        print("Erro ao criar o diretório de resultados")
 
     # Task selection
     task_number = input("Qual tarefa deseja executar 1 ou 2? ")
@@ -32,9 +32,9 @@ def main():
     task_result_dir = f"{results_dir}/{task_number}/{task_letter}"
 
     try:
-        os.mkdir(task_result_dir)
+        os.makedirs(task_result_dir)
     except OSError:
-        pass
+        print("Erro ao criar os diretórios da tarefa")
 
     # Task running
     if task_number == "1":
