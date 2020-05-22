@@ -37,7 +37,7 @@ def heat_source(t, x, N, letter):
 
 def u_solution(t, x, letter):
     """
-    Caclcula o valor da solução de um determinado problema,
+    Calcula o valor da solução de um determinado problema,
     em um determinado instante, em uma determinada posição.
     """
 
