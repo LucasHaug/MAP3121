@@ -1,0 +1,1 @@
+O erro máximo de aproximação é 4.679151404185511e-05
