@@ -12,6 +12,9 @@ import plotter
 ENABLE_ERRORS_CALCULATION = True
 ENABLE_SOLUTION_PLOTTING = False
 
+ENABLE_GRAPHS_VIEW = False
+SAVE_GRAPHS_IMAGE = True
+
 #################################################
 ### Functions Definitions
 #################################################
@@ -168,9 +171,9 @@ def run(letter, task_result_dir):
     # Plotting u(t, x)
     approx_image_name = f"2{letter.capitalize()}_{method_name}_{N}_APPROX"
 
-    plotter.u_2d_graph(U, scale_array, scale_array, 11, approx_image_name, True, False, task_result_dir)
+    plotter.u_2d_graph(U, scale_array, scale_array, 11, approx_image_name, ENABLE_GRAPHS_VIEW, SAVE_GRAPHS_IMAGE, task_result_dir)
 
-    plotter.u_3d_graph(U, scale_array, scale_array, N, approx_image_name, True, False, task_result_dir)
+    plotter.u_3d_graph(U, scale_array, scale_array, N, approx_image_name, ENABLE_GRAPHS_VIEW, SAVE_GRAPHS_IMAGE, task_result_dir)
 
     if letter != "c":
         if ENABLE_SOLUTION_PLOTTING == True:
@@ -183,9 +186,9 @@ def run(letter, task_result_dir):
 
             sol_image_name = f"2{letter.capitalize()}_{method_name}_{N}_SOL"
 
-            plotter.u_2d_graph(u_sol, scale_array, scale_array, 11, sol_image_name, True, False, task_result_dir)
+            plotter.u_2d_graph(u_sol, scale_array, scale_array, 11, sol_image_name, ENABLE_GRAPHS_VIEW, SAVE_GRAPHS_IMAGE, task_result_dir)
 
-            plotter.u_3d_graph(u_sol, scale_array, scale_array, N, sol_image_name, True, False, task_result_dir)
+            plotter.u_3d_graph(u_sol, scale_array, scale_array, N, sol_image_name, ENABLE_GRAPHS_VIEW, SAVE_GRAPHS_IMAGE, task_result_dir)
 
         if ENABLE_ERRORS_CALCULATION == True:
             if method == "e":
