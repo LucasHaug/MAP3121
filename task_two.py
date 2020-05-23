@@ -22,7 +22,7 @@ SAVE_GRAPHS_IMAGE = True
 def matrix_decomposition(a_matrix_diag, a_matrix_subdiag):
     """
     Decompõe uma matrix A tridiagonal simétrica em três matrizes
-    L, D e Lt, retonando apenas dois vetores que representam as
+    L, D e Lt, retornando apenas dois vetores que representam as
     matrizes L e D.
     """
 
