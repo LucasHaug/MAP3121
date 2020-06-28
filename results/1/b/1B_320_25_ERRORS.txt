@@ -1,2 +1,0 @@
-O erro máximo de truncamento é 0.0010297042071982787
-O erro máximo de aproximação é 4.887286255383927e-05
