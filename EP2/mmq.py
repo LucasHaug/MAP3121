@@ -6,7 +6,7 @@ import numpy as np
 ### Functions Definitions
 #################################################
 
-def generate_linear_system(g_matrix, f_array):
+def generate_linear_system(f_array, g_matrix):
     """
     Dado f(x) = a0 * g0(x) + a1 * g1(x) + ... + ak * gk(x)
 
@@ -52,7 +52,7 @@ def matrix_decomposition(a_matrix):
 
 
 
-def solve_linear_system(A_matrix, b_array):
+def solve_linear_system(a_matrix, b_array):
     """
     Soluciona um sistema Ax = b, onde A é uma matrix simétrica.
 
@@ -71,3 +71,29 @@ def solve_linear_system(A_matrix, b_array):
     # math
 
     return x_array
+
+
+
+def squared_error_calculation(f_array, g_matrix, coeficients_array):
+    """
+    Cálculo discreto do erro quadrático.
+    """
+
+    num_of_xs = len(f_array)
+    num_of_coeficients = len(coeficients_array)
+
+    error_sum = 0
+
+    for i in range(0, num_of_xs):
+        approx_sum = 0
+
+        for k in range(0, num_of_coeficients):
+            approx_sum += coeficients_array[k] * g_matrix[k][i]
+
+        error_sum += ((f_array[i] - approx_sum)**2)
+
+    error_sum /= num_of_xs
+
+    error = np.sqrt(error_sum)
+
+    return error
