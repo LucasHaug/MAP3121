@@ -29,6 +29,10 @@ def main():
     # Test selection
     test_letter = input("Qual teste deseja executar a, b, c ou d? ")
 
+    while test_letter not in ("a", "b", "c", "d"):
+        print("Tetse não encontrado, escolha entre a, b, c ou d")
+        test_letter = input("Qual teste deseja executar a, b, c ou d? ")
+
     test_letter = test_letter.lower()
 
     # Get test data
