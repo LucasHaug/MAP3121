@@ -72,7 +72,7 @@ def test_c():
 
     mesh_size = 2048
 
-    mesh_relation = mesh_size / N
+    mesh_relation = int(mesh_size / N)
 
     test_file_name = "teste.txt"
 
