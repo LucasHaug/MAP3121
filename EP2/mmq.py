@@ -74,15 +74,15 @@ def solve_linear_system(a_matrix, b_array):
 
 
 
-def squared_error_calculation(f_array, g_matrix, coeficients_array):
+def f_approximation(g_matrix, coeficients_array):
     """
-    Cálculo discreto do erro quadrático.
+    Retorna um vetor para o valor aproximado de f, dados os coeficientes ak.
     """
 
-    num_of_xs = len(f_array)
-    num_of_coeficients = len(coeficients_array)
+    num_of_xs = len(g_matrix[0])
+    num_of_coeficients = len(g_matrix)
 
-    error_sum = 0
+    f_approx_array = np.zeros(num_of_xs, dtype=float)
 
     for i in range(0, num_of_xs):
         approx_sum = 0
@@ -90,7 +90,24 @@ def squared_error_calculation(f_array, g_matrix, coeficients_array):
         for k in range(0, num_of_coeficients):
             approx_sum += coeficients_array[k] * g_matrix[k][i]
 
-        error_sum += ((f_array[i] - approx_sum)**2)
+        f_approx_array[i] = approx_sum
+
+    return f_approx_array
+
+
+def squared_error_calculation(f_array, g_matrix, coeficients_array):
+    """
+    Cálculo discreto do erro quadrático.
+    """
+
+    num_of_xs = len(f_array)
+
+    f_approx_array = f_approximation(g_matrix, coeficients_array)
+
+    error_sum = 0
+
+    for i in range(0, num_of_xs):
+        error_sum += ((f_array[i] - f_approx_array[i])**2)
 
     error_sum /= num_of_xs
 
