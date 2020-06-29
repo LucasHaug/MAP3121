@@ -114,3 +114,36 @@ def squared_error_calculation(f_array, g_matrix, coeficients_array):
     error = np.sqrt(error_sum)
 
     return error
+
+#################################################
+### REMOVE THIS BEFORE SENDIND
+#################################################
+
+def test_decomposition():
+    a_matrix = [[1,2,3], [2, 1, 4,], [3, 4, 1]]
+
+    print(f"Matriz A: {a_matrix}")
+
+    l_matrix, d_matrix = matrix_decomposition(a_matrix)
+
+    print(f"Matriz L minha: {l_matrix}")
+    print(f"Matriz D minha: {d_matrix}")
+
+    a_result = np.matmul(l_matrix, np.matmul(d_matrix, l_matrix.transpose()))
+
+    print(f"Matriz A L*D*Lt: {a_result}")
+
+def test_system_solving():
+    a_matrix = [[1,2,3], [2, 1, 4,], [3, 4, 1]]
+    b_array = [1, 2, 4]
+
+    x_array_result = np.linalg.solve(a_matrix, b_array)
+
+    print(f"Resposta correta: {x_array_result}")
+
+    x_array = solve_linear_system(a_matrix, b_array)
+    print(f"Minha resposta: {x_array}")
+
+
+test_decomposition()
+test_system_solving()
