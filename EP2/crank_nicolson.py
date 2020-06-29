@@ -197,13 +197,13 @@ def solve_heat_equation(source_position, N):
         for i in range(1, N):
             U[k + 1][i] = solution[i - 1]
 
-    return U[-1]
+    return U[-1], scale_array
 
 
 
 def generate_uk(heat_sources_positions_array, N):
     """
-    Gera os vetores uk(T, xi), i = 1, ..., N
+    Gera os vetores uk(T, xi), i = 0, ..., N
     """
 
     nf = len(heat_sources_positions_array)
@@ -211,6 +211,6 @@ def generate_uk(heat_sources_positions_array, N):
     uk_matrix = np.zeros((nf, N + 1))
 
     for k in range(0, nf):
-        uk_matrix[k] = solve_heat_equation(heat_sources_positions_array[k], N)
+        uk_matrix[k], scale_array = solve_heat_equation(heat_sources_positions_array[k], N)
 
-    return uk_matrix
+    return uk_matrix, scale_array
