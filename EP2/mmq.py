@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import numpy as np
+from numpy.linalg import inv
 
 #################################################
 ### Functions Definitions
@@ -46,7 +47,20 @@ def matrix_decomposition(a_matrix):
     l_matrix = np.zeros((matrix_dimension, matrix_dimension), dtype=float)
     d_matrix = np.zeros((matrix_dimension, matrix_dimension), dtype=float)
 
-    # math
+    for f in range (0, matrix_dimension):
+        # gera os a matriz L
+        for l in range (f, matrix_dimension):
+            l_matrix[l][f] = a_matrix[l][f]/a_matrix[f][f]
+
+        # gera a nova matriz
+        for c in range (0, matrix_dimension):
+            for l in range (f+1, matrix_dimension):
+                a_matrix[l][c] = a_matrix[l][c]-l_matrix[l][f]*a_matrix[f][c]
+
+    # gera os a matriz D
+    for c in range (0, matrix_dimension):
+        for l in range (0, matrix_dimension):
+            d_matrix[l][l] = a_matrix[l][l]
 
     return l_matrix, d_matrix
 
@@ -66,7 +80,13 @@ def solve_linear_system(a_matrix, b_array):
 
     dimension = len(b_array)
 
+    y_array = np.zeros(dimension, dtype=float)
+    z_array = np.zeros(dimension, dtype=float)
     x_array = np.zeros(dimension, dtype=float)
+
+    y_array = np.linalg.solve(matrix_decomposition(a_matrix)[0], b_array)
+    z_array = np.linalg.solve(matrix_decomposition(a_matrix)[1], y_array)
+    x_array = np.linalg.solve(np.transpose(matrix_decomposition(a_matrix)[0]), z_array)
 
     # math
 
@@ -116,18 +136,23 @@ def squared_error_calculation(f_array, g_matrix, coeficients_array):
     return error
 
 #################################################
-### REMOVE THIS BEFORE SENDIND
+### REMOVE THIS ANTES DE SENDIND
 #################################################
 
 def test_decomposition():
-    a_matrix = [[1,2,3], [2, 1, 4,], [3, 4, 1]]
+    a_matrix = [[1,3,4], [3, 1, 3,], [4, 3, -1]]
 
-    print(f"Matriz A: {a_matrix}")
+    print(f"Matriz A:")
+    print(a_matrix)
+
 
     l_matrix, d_matrix = matrix_decomposition(a_matrix)
 
-    print(f"Matriz L minha: {l_matrix}")
-    print(f"Matriz D minha: {d_matrix}")
+    # print(a_matrix[0][1])
+    print(f"Matriz L minha:")
+    print(l_matrix)
+    print(f"Matriz D minha:")
+    print(d_matrix)
 
     a_result = np.matmul(l_matrix, np.matmul(d_matrix, l_matrix.transpose()))
 
@@ -139,11 +164,12 @@ def test_system_solving():
 
     x_array_result = np.linalg.solve(a_matrix, b_array)
 
-    print(f"Resposta correta: {x_array_result}")
+    print(f"Resposta correta:")
+    print(x_array_result)
 
     x_array = solve_linear_system(a_matrix, b_array)
-    print(f"Minha resposta: {x_array}")
-
+    print(f"Minha resposta:")
+    print(x_array)
 
 test_decomposition()
 test_system_solving()
