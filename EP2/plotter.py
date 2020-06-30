@@ -25,7 +25,7 @@ def two_graphs(y1_array, y2_array, x_array, image_name, show_image, save_image, 
 
     # Plotting
     plt.plot(x_array, y1_array, label = "Solução")
-    plt.plot(x_array, y2_array, label = "Aproximação")
+    plt.plot(x_array, y2_array, label = "Aproximação", linestyle='--')
 
     plt.legend()
 
