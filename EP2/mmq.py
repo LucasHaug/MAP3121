@@ -39,6 +39,8 @@ def matrix_decomposition(a_matrix):
     Decompõe uma matrix A simétrica em três matrizes L, D e
     Lt, retornando apenas dois vetores que representam as
     matrizes L e D.
+
+    Aviso: A matriz A é mudada dentro da função.
     """
 
     matrix_dimension = len(a_matrix)
@@ -47,16 +49,16 @@ def matrix_decomposition(a_matrix):
     d_matrix = np.zeros((matrix_dimension, matrix_dimension), dtype=float)
 
     for f in range(0, matrix_dimension):
-        # gera os a matriz L
+        # Generate L matrix
         for l in range(f, matrix_dimension):
             l_matrix[l][f] = a_matrix[l][f] / a_matrix[f][f]
 
-        # gera a nova matriz
+        # Generate the new matrix A
         for c in range(0, matrix_dimension):
             for l in range(f + 1, matrix_dimension):
                 a_matrix[l][c] = a_matrix[l][c] - l_matrix[l][f] * a_matrix[f][c]
 
-    # gera os a matriz D
+    # Generate D matrix
     for l in range(0, matrix_dimension):
         d_matrix[l][l] = a_matrix[l][l]
 
@@ -77,27 +79,27 @@ def solve_linear_system(a_matrix, b_array):
     """
 
     matrix_dimension = len(a_matrix)
-    
+
     l_matrix, d_matrix = matrix_decomposition(a_matrix)
 
-    # determina Y
+    # First system solution -> L * y = b
     y_array = np.zeros(matrix_dimension, dtype=float)
 
     y_array[0] = b_array[0]
 
     for l in range(1, matrix_dimension):
         y_array[l] = b_array[l]
-        
+
         for m in range(0, l):
             y_array[l] = y_array[l] - y_array[m] * l_matrix[l][m]
 
-    # determina z
+    # Second system solution -> D * z = y
     z_array = np.zeros(matrix_dimension, dtype=float)
 
     for l in range(0, matrix_dimension):
         z_array[l] = y_array[l] / d_matrix[l][l]
 
-    # determina x
+    # Third system solution -> Lt * x = z
     x_array = np.zeros(matrix_dimension, dtype=float)
 
     x_array[-1] = z_array[-1]
