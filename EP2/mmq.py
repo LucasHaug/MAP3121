@@ -58,9 +58,8 @@ def matrix_decomposition(a_matrix):
                 a_matrix[l][c] = a_matrix[l][c]-l_matrix[l][f]*a_matrix[f][c]
 
     # gera os a matriz D
-    for c in range (0, matrix_dimension):
-        for l in range (0, matrix_dimension):
-            d_matrix[l][l] = a_matrix[l][l]
+    for l in range (0, matrix_dimension):
+        d_matrix[l][l] = a_matrix[l][l]
 
     return l_matrix, d_matrix
 
@@ -77,12 +76,30 @@ def solve_linear_system(a_matrix, b_array):
     D * z = y
     Lt * x = z
     """
-
+    matrix_dimension = len(a_matrix)
+    y_array = np.zeros((matrix_dimension), dtype=float)
+    z_array = np.zeros((matrix_dimension), dtype=float)
+    x_array = np.zeros((matrix_dimension), dtype=float)
     l_matrix, d_matrix = matrix_decomposition(a_matrix)
 
-    y_array = np.matmul(inv(l_matrix), b_array)
-    z_array = np.matmul(inv(d_matrix), y_array)
-    x_array = np.matmul(inv(np.transpose(l_matrix)), z_array)
+    # determina Y
+    y_array[0] = b_array[0]
+    for l in range (1, matrix_dimension):
+        y_array[l] = b_array[l]
+        for m in range(0,l):
+            y_array[l] = y_array[l]-y_array[m]*l_matrix[l][m]
+
+
+    # determina z
+    for l in range (0, matrix_dimension):
+        z_array[l] = y_array[l]/d_matrix[l][l]
+
+    # determina x
+    x_array[matrix_dimension-1] = z_array[matrix_dimension-1]
+    for l in range (matrix_dimension-2, -1, -1):
+        x_array[l] = z_array[l]
+        for m in range(matrix_dimension-1, l, -1):
+            x_array[l] = x_array[l]-x_array[m]*np.transpose(l_matrix)[l][m]
 
     # math
 
@@ -136,7 +153,7 @@ def squared_error_calculation(f_array, g_matrix, coeficients_array):
 #################################################
 
 def test_decomposition():
-    a_matrix = [[1,3,4], [3, 1, 3,], [4, 3, -1]]
+    a_matrix = [[1,2,3], [2, 1, 4,], [3, 4, 1]]
 
     print(f"Matriz A:")
     print(a_matrix)
