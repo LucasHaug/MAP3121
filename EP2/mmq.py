@@ -84,9 +84,9 @@ def solve_linear_system(a_matrix, b_array):
     z_array = np.zeros(dimension, dtype=float)
     x_array = np.zeros(dimension, dtype=float)
 
-    y_array = np.linalg.solve(matrix_decomposition(a_matrix)[0], b_array)
-    z_array = np.linalg.solve(matrix_decomposition(a_matrix)[1], y_array)
-    x_array = np.linalg.solve(np.transpose(matrix_decomposition(a_matrix)[0]), z_array)
+    y_array = np.matmul(inv(matrix_decomposition(a_matrix)[0]), b_array)
+    z_array = np.matmul(inv(matrix_decomposition(a_matrix)[1]), y_array)
+    x_array = np.matmul(inv(np.transpose(matrix_decomposition(a_matrix)[0])), z_array)
 
     # math
 
