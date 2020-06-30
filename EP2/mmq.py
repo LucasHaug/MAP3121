@@ -152,9 +152,7 @@ def squared_error_calculation(f_array, g_matrix, coeficients_array):
 ### REMOVE THIS ANTES DE SENDIND
 #################################################
 
-def test_decomposition():
-    a_matrix = [[1,2,3], [2, 1, 4,], [3, 4, 1]]
-
+def test_decomposition(a_matrix):
     print(f"Matriz A:")
     print(a_matrix)
 
@@ -171,8 +169,7 @@ def test_decomposition():
 
     print(f"Matriz A L*D*Lt: {a_result}")
 
-def test_system_solving():
-    a_matrix = [[1,2,3], [2, 1, 4,], [3, 4, 1]]
+def test_system_solving(a_matrix):
     b_array = [1, 2, 4]
 
     x_array_result = np.linalg.solve(a_matrix, b_array)
@@ -184,5 +181,16 @@ def test_system_solving():
     print(f"Minha resposta:")
     print(x_array)
 
-test_decomposition()
-test_system_solving()
+a = 1
+b = 7
+c = 3
+
+d = 4
+e = 52
+f = 6
+
+a_matrix = [[a,d,e], [d, b, f,], [e, f, c]]
+test_decomposition(a_matrix)
+
+a_matrix = [[a,d,e], [d, b, f,], [e, f, c]]
+test_system_solving(a_matrix)
