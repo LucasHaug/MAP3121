@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import numpy as np
-from numpy.linalg import inv
 
 #################################################
 ### Functions Definitions
@@ -47,18 +46,18 @@ def matrix_decomposition(a_matrix):
     l_matrix = np.zeros((matrix_dimension, matrix_dimension), dtype=float)
     d_matrix = np.zeros((matrix_dimension, matrix_dimension), dtype=float)
 
-    for f in range (0, matrix_dimension):
+    for f in range(0, matrix_dimension):
         # gera os a matriz L
-        for l in range (f, matrix_dimension):
-            l_matrix[l][f] = a_matrix[l][f]/a_matrix[f][f]
+        for l in range(f, matrix_dimension):
+            l_matrix[l][f] = a_matrix[l][f] / a_matrix[f][f]
 
         # gera a nova matriz
-        for c in range (0, matrix_dimension):
-            for l in range (f+1, matrix_dimension):
-                a_matrix[l][c] = a_matrix[l][c]-l_matrix[l][f]*a_matrix[f][c]
+        for c in range(0, matrix_dimension):
+            for l in range(f + 1, matrix_dimension):
+                a_matrix[l][c] = a_matrix[l][c] - l_matrix[l][f] * a_matrix[f][c]
 
     # gera os a matriz D
-    for l in range (0, matrix_dimension):
+    for l in range(0, matrix_dimension):
         d_matrix[l][l] = a_matrix[l][l]
 
     return l_matrix, d_matrix
@@ -76,32 +75,38 @@ def solve_linear_system(a_matrix, b_array):
     D * z = y
     Lt * x = z
     """
+
     matrix_dimension = len(a_matrix)
-    y_array = np.zeros((matrix_dimension), dtype=float)
-    z_array = np.zeros((matrix_dimension), dtype=float)
-    x_array = np.zeros((matrix_dimension), dtype=float)
+    
     l_matrix, d_matrix = matrix_decomposition(a_matrix)
 
     # determina Y
-    y_array[0] = b_array[0]
-    for l in range (1, matrix_dimension):
-        y_array[l] = b_array[l]
-        for m in range(0,l):
-            y_array[l] = y_array[l]-y_array[m]*l_matrix[l][m]
+    y_array = np.zeros(matrix_dimension, dtype=float)
 
+    y_array[0] = b_array[0]
+
+    for l in range(1, matrix_dimension):
+        y_array[l] = b_array[l]
+        
+        for m in range(0, l):
+            y_array[l] = y_array[l] - y_array[m] * l_matrix[l][m]
 
     # determina z
-    for l in range (0, matrix_dimension):
-        z_array[l] = y_array[l]/d_matrix[l][l]
+    z_array = np.zeros(matrix_dimension, dtype=float)
+
+    for l in range(0, matrix_dimension):
+        z_array[l] = y_array[l] / d_matrix[l][l]
 
     # determina x
-    x_array[matrix_dimension-1] = z_array[matrix_dimension-1]
-    for l in range (matrix_dimension-2, -1, -1):
-        x_array[l] = z_array[l]
-        for m in range(matrix_dimension-1, l, -1):
-            x_array[l] = x_array[l]-x_array[m]*np.transpose(l_matrix)[l][m]
+    x_array = np.zeros(matrix_dimension, dtype=float)
 
-    # math
+    x_array[-1] = z_array[-1]
+
+    for l in range(matrix_dimension - 2, -1, -1):
+        x_array[l] = z_array[l]
+
+        for m in range(matrix_dimension - 1, l, -1):
+            x_array[l] = x_array[l] - x_array[m] * np.transpose(l_matrix)[l][m]
 
     return x_array
 
@@ -126,6 +131,7 @@ def f_approximation(g_matrix, coeficients_array):
         f_approx_array[i] = approx_sum
 
     return f_approx_array
+
 
 
 def squared_error_calculation(f_array, g_matrix, coeficients_array):
