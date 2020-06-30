@@ -27,13 +27,11 @@ def main():
         pass
 
     # Test selection
-    test_letter = input("Qual teste deseja executar a, b, c ou d? ")
+    test_letter = (input("Qual teste deseja executar a, b, c ou d? ")).lower()
 
     while test_letter not in ("a", "b", "c", "d"):
         print("Tetse não encontrado, escolha entre a, b, c ou d")
-        test_letter = input("Qual teste deseja executar a, b, c ou d? ")
-
-    test_letter = test_letter.lower()
+        test_letter = (input("Qual teste deseja executar a, b, c ou d? ")).lower()
 
     # Get test data
     ut_array, uk_matrix, x_array, N = tests.get_data(test_letter)
