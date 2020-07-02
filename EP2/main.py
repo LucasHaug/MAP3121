@@ -45,7 +45,10 @@ def main():
 
     coeficients_array = mmq.solve_linear_system(a_matrix, b_array)
 
-    print(f"Coeficientes ak:\n {coeficients_array}")
+    print("Coeficiente(s):")
+
+    for i in range(0, len(coeficients_array)):
+        print(f"a{i} = {coeficients_array[i]}")
 
     # Calculate squared error and save it
     squared_error = mmq.squared_error_calculation(ut_array, uk_matrix, coeficients_array)
