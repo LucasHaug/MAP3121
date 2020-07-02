@@ -45,15 +45,23 @@ def main():
 
     coeficients_array = mmq.solve_linear_system(a_matrix, b_array)
 
-    print("Coeficiente(s):")
+    intensity_text = "Intensidade(s):"
+
+    print(f"\n{intensity_text}")
+
+    results_file.write(f"{intensity_text}\n")
 
     for i in range(0, len(coeficients_array)):
-        print(f"a{i} = {coeficients_array[i]}")
+        coeficient_result = f"a{i} = {coeficients_array[i]}"
+
+        print(coeficient_result)
+
+        results_file.write(f"{coeficient_result}\n")
 
     # Calculate squared error and save it
     squared_error = mmq.squared_error_calculation(ut_array, uk_matrix, coeficients_array)
 
-    squared_error_result = f"Erro quadrático: {squared_error}"
+    squared_error_result = f"\nErro quadratico: {squared_error}"
 
     print(squared_error_result)
 
@@ -67,7 +75,7 @@ def main():
     # Finaliza a execução
     results_file.close()
 
-    print("Execução finalizada!")
+    print("\nExecução finalizada!")
 
 
 if __name__ == "__main__":
