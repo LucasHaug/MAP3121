@@ -24,8 +24,8 @@ def two_graphs(y1_array, y2_array, x_array, image_name, show_image, save_image, 
 
 
     # Plotting
-    plt.plot(x_array, y1_array, label = "Solução")
-    plt.plot(x_array, y2_array, label = "Aproximação", linestyle='--')
+    plt.plot(x_array, y1_array, color = 'b', label = "Temperatura medida")
+    plt.plot(x_array, y2_array, color = 'r', label = "Aproximação", linestyle = '-.')
 
     plt.legend()
 
