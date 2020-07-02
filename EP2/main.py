@@ -67,12 +67,12 @@ def main():
 
     results_file.write(squared_error_result)
 
-    # Plota o gráfico
+    # Plota graphs
     ut_approx = mmq.f_approximation(uk_matrix, coeficients_array)
 
     plotter.two_graphs(ut_array, ut_approx, x_array, f"{test_letter.upper()}_{N}_GRAPH", ENABLE_GRAPHS_VIEW, SAVE_GRAPHS_IMAGE, results_dir)
 
-    # Finaliza a execução
+    # Finish execution
     results_file.close()
 
     print("\nExecução finalizada!")
