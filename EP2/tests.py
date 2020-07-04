@@ -76,9 +76,15 @@ def test_c():
 
     test_file_name = "teste.txt"
 
+    test_file = open(test_file_name, "r")
+    file_lines = test_file.readlines()
+
+    test_file.close()
+    
     # Create heat sources positions array
-    heat_sources_positions_array = [0.14999999999999999, 0.20000000000000001, 0.29999999999999999, 0.34999999999999998, 0.50000000000000000,
-                                    0.59999999999999998, 0.69999999999999996, 0.72999999999999998, 0.84999999999999998, 0.90000000000000002]
+    heat_sources_positions_array = [float(item) for item in (file_lines.pop(0).split())]
+
+    print(file_lines[1])
 
     # Calculate uk matrix
     uk_matrix, scale_array = crank_nicolson.generate_uk(heat_sources_positions_array, N)
@@ -88,13 +94,8 @@ def test_c():
     # Create ut array
     ut_array = np.zeros(N - 1, dtype=float)
 
-    test_file = open(test_file_name, "r")
-    file_lines = test_file.readlines()
-
     for i in range(0, N - 1):
         ut_array[i] = file_lines[(i + 1) * mesh_relation]
-
-    test_file.close()
 
     # Delete extremes from scale array
     scale_array = np.delete(scale_array, [0, N])
