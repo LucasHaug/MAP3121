@@ -1,0 +1,4 @@
+Intensidade(s):
+a0 = 7.0
+
+Erro quadratico: 0.0
