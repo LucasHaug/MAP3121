@@ -37,7 +37,7 @@ def main():
     ut_array, uk_matrix, x_array, N = tests.get_data(test_letter)
 
     # Create results file
-    results_file_name = f"{results_dir}/{test_letter.upper()}_{N}_ERRORS.txt"
+    results_file_name = f"{results_dir}/{test_letter.upper()}_{N}_RESULTS.txt"
     results_file = open(results_file_name, 'w')
 
     # Generate and solve normal system
