@@ -80,11 +80,9 @@ def test_c():
     file_lines = test_file.readlines()
 
     test_file.close()
-    
+
     # Create heat sources positions array
     heat_sources_positions_array = [float(item) for item in (file_lines.pop(0).split())]
-
-    print(file_lines[1])
 
     # Calculate uk matrix
     uk_matrix, scale_array = crank_nicolson.generate_uk(heat_sources_positions_array, N)
