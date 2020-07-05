@@ -10,8 +10,8 @@ import mmq
 ### Public Variables
 #################################################
 
-ENABLE_GRAPHS_VIEW = False
-SAVE_GRAPHS_IMAGE = True
+ENABLE_GRAPHS_VIEW = True
+SAVE_GRAPHS_IMAGE = False
 
 #################################################
 ### Main Function
