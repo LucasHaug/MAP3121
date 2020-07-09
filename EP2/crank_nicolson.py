@@ -159,7 +159,8 @@ def solve_heat_equation(source_position, N):
     Δx = 1 / float(N)
     Δt = Δx
 
-    λ = Δt / (Δx**2)
+    # λ = Δt / (Δx**2)
+    λ = N
 
     diag_value = 1 + λ
     subdiag_value = -λ / 2
@@ -194,8 +195,7 @@ def solve_heat_equation(source_position, N):
 
         solution = solve_linear_system(a_matrix_diag, a_matrix_subdiag, b_array)
 
-        for i in range(1, N):
-            U[k + 1][i] = solution[i - 1]
+        U[k + 1][1:-1] = solution
 
     return U[-1], scale_array
 
