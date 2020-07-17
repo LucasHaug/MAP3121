@@ -23,7 +23,7 @@ def f_function(t, x, y):
     """
 
     result = y
-    
+
     return result
 
 def g_function(t, x, y):
@@ -32,7 +32,7 @@ def g_function(t, x, y):
     """
 
     result = -t * y - x
-    
+
     return result
 
 
@@ -42,16 +42,16 @@ def g_function(t, x, y):
 
 
 def main():
-    order = 2
+    order = 1
 
-    h = 1
+    h = 0.5
     y0 = 0
     x0 = 1
     t0 = 0
     tf = 1
-   
+
     if (order == 1):
-        first_order(y0, x0, xf, h)
+        first_order(y0, x0, t0, tf, h)
     elif (order == 2):
         second_order(y0, x0, t0, tf, h)
     elif (order == 3):
@@ -72,23 +72,25 @@ def first_order(y0, x0, t0, tf, h):
     """
 
     tn = t0
-    wn = np.array([x0, y0])
+    wn = [x0, y0]
 
     print(f"tn = {tn} => wn = {wn}")
 
     num_of_ts = int((tf - t0) / h)
 
     for _ in range(num_of_ts):
-        k1 = f_function(tn, wn[0], wn[1])
+        k1 = [f_function(tn, wn[0], wn[1]), g_function(tn, wn[0], wn[1])]
 
         print(f"k1 = {k1}")
 
-        ynp1 = yn + h * k1
-        
-        yn = ynp1
-        xn += h 
+        wnp1 = wn + h * np.array(k1)
 
-        print(f"y({xn}) = {yn}")
+        wn = np.copy(wnp1)
+        tn += h
+
+        print(f"tn = {tn} => wn = {wn}")
+
+    print(f"x({tn}) = {wn[0]}")
 
 
 def second_order(y0, x0, t0, tf, h):
@@ -97,7 +99,7 @@ def second_order(y0, x0, t0, tf, h):
     """
 
     tn = t0
-    wn = np.array([x0, y0])
+    wn = [x0, y0]
 
     print(f"tn = {tn} => wn = {wn}")
 
@@ -111,9 +113,9 @@ def second_order(y0, x0, t0, tf, h):
         print(f"k1 = {k1} & k2 = {k2}")
 
         wnp1 = wn + (h / 2) * (np.array(k1) + np.array(k2))
-        
+
         wn = np.copy(wnp1)
-        tn += h 
+        tn += h
 
         print(f"tn = {tn} => wn = {wn}")
 
@@ -139,9 +141,9 @@ def third_order(y0, x0, xf, h):
         k3 = h * f_function(xn + 3 * h / 4, yn + 3 * k2 / 4)
 
         ynp1 = yn + 2 * k1 / 9 + k2 / 3 + 4 * k3 / 9
-        
+
         yn = ynp1
-        xn += h 
+        xn += h
 
         print(f"y({xn}) = {yn}")
 
@@ -151,7 +153,7 @@ def fouth_order(y0, x0, xf, h):
     """
     Runge-Kutta de quarta ordem
     """
-  
+
     xn = x0
     yn = y0
 
@@ -168,9 +170,9 @@ def fouth_order(y0, x0, xf, h):
         print(f"k1 = {k1}, k2 = {k2}, k3 = {k3}, k4 = {k4}")
 
         ynp1 = yn + (k1 + 2 * k2 + 2 * k3 + k4) / 6
-        
+
         yn = ynp1
-        xn += h 
+        xn += h
 
         print(f"y({xn}) = {yn}")
 
