@@ -12,7 +12,7 @@ def f_function(x, y):
     """
 
     result = y - x
-    
+
     return result
 
 
@@ -28,15 +28,15 @@ def main():
     x0 = 0
     xf = 1
     y0 = 2
-    
+
     if (order == 1):
-        first_order(y0, x0, xf, h)
+        euler_method(y0, x0, xf, h)
     elif (order == 2):
-        second_order(y0, x0, xf, h)
+        modified_euler_method(y0, x0, xf, h)
     elif (order == 3):
-        third_order(y0, x0, xf, h)
+        runge_kutta_third_order(y0, x0, xf, h)
     elif (order == 4):
-        fouth_order(y0, x0, xf, h)
+        runge_kutta_fourth_order(y0, x0, xf, h)
     else:
         print("Calma lá também né")
 
@@ -45,7 +45,7 @@ def main():
 ### Methods functions
 #################################################
 
-def first_order(y0, x0, xf, h):
+def euler_method(y0, x0, xf, h):
     """
     Método de Euler, método de primeira ordem
     """
@@ -63,16 +63,16 @@ def first_order(y0, x0, xf, h):
         print(f"k1 = {k1}")
 
         ynp1 = yn + h * k1
-        
+
         yn = ynp1
-        xn += h 
+        xn += h
 
         print(f"y({xn}) = {yn}")
 
 
-def second_order(y0, x0, xf, h):
+def modified_euler_method(y0, x0, xf, h):
     """
-    Método de Euler modificado, método de primeira ordem
+    Método de Euler modificado, método de segunda ordem
     """
 
     xn = x0
@@ -91,15 +91,15 @@ def second_order(y0, x0, xf, h):
 
 
         ynp1 = yn + h * (k1 + k2) / 2
-        
+
         yn = ynp1
-        xn += h 
+        xn += h
 
         print(f"y({xn}) = {yn}")
 
 
 
-def third_order(y0, x0, xf, h):
+def runge_kutta_third_order(y0, x0, xf, h):
     """
     Runge-Kutta de terceira ordem
     """
@@ -117,19 +117,19 @@ def third_order(y0, x0, xf, h):
         k3 = h * f_function(xn + 3 * h / 4, yn + 3 * k2 / 4)
 
         ynp1 = yn + 2 * k1 / 9 + k2 / 3 + 4 * k3 / 9
-        
+
         yn = ynp1
-        xn += h 
+        xn += h
 
         print(f"y({xn}) = {yn}")
 
 
 
-def fouth_order(y0, x0, xf, h):
+def runge_kutta_fourth_order(y0, x0, xf, h):
     """
     Runge-Kutta de quarta ordem
     """
-  
+
     xn = x0
     yn = y0
 
@@ -146,9 +146,9 @@ def fouth_order(y0, x0, xf, h):
         print(f"k1 = {k1}, k2 = {k2}, k3 = {k3}, k4 = {k4}")
 
         ynp1 = yn + (k1 + 2 * k2 + 2 * k3 + k4) / 6
-        
+
         yn = ynp1
-        xn += h 
+        xn += h
 
         print(f"y({xn}) = {yn}")
 

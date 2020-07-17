@@ -51,13 +51,13 @@ def main():
     tf = 1
 
     if (order == 1):
-        first_order(y0, x0, t0, tf, h)
+        euler_method(y0, x0, t0, tf, h)
     elif (order == 2):
-        second_order(y0, x0, t0, tf, h)
+        modified_euler_method(y0, x0, t0, tf, h)
     elif (order == 3):
-        third_order(y0, x0, t0, tf, h)
+        runge_kutta_third_order(y0, x0, t0, tf, h)
     elif (order == 4):
-        fouth_order(y0, x0, t0, tf, h)
+        runge_kutta_fourth_order(y0, x0, t0, tf, h)
     else:
         print("Calma lá também né")
 
@@ -66,7 +66,7 @@ def main():
 ### Methods functions
 #################################################
 
-def first_order(y0, x0, t0, tf, h):
+def euler_method(y0, x0, t0, tf, h):
     """
     Método de Euler, método de primeira ordem
     """
@@ -93,9 +93,9 @@ def first_order(y0, x0, t0, tf, h):
     print(f"x({tn}) = {wn[0]}")
 
 
-def second_order(y0, x0, t0, tf, h):
+def modified_euler_method(y0, x0, t0, tf, h):
     """
-    Método de Euler modificado, método de primeira ordem
+    Método de Euler modificado, método de segunda ordem
     """
 
     tn = t0
@@ -123,7 +123,7 @@ def second_order(y0, x0, t0, tf, h):
 
 
 
-def third_order(y0, x0, t0, tf, h):
+def runge_kutta_third_order(y0, x0, t0, tf, h):
     """
     Runge-Kutta de terceira ordem
     """
@@ -155,7 +155,7 @@ def third_order(y0, x0, t0, tf, h):
 
 
 
-def fouth_order(y0, x0, t0, tf, h):
+def runge_kutta_fourth_order(y0, x0, t0, tf, h):
     """
     Runge-Kutta de quarta ordem
     """

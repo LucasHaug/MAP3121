@@ -12,7 +12,7 @@ def f_function(x, y):
     """
 
     result = y - x**2 + 1
-    
+
     return result
 
 def f_derivative(x, y, derivative_order):
@@ -30,7 +30,7 @@ def f_derivative(x, y, derivative_order):
         result = y - x**2 - 1 - 2 * x
     else:
         result = 0
-    
+
     return result
 
 
@@ -46,7 +46,7 @@ def main():
     x0 = 0
     xf = 2
     y0 = 0.5
-    
+
     solve(y0, x0, xf, h, order)
 
 
@@ -71,11 +71,11 @@ def solve(y0, x0, xf, h, order):
 
         for i in range(1, order):
             t_function += f_derivative(xn, yn, i) * (h**i) / (np.math.factorial(i + 1))
-        
+
         ynp1 = yn + h * t_function
-        
+
         yn = ynp1
-        xn += h 
+        xn += h
 
         print(f"y({xn}) = {yn}")
 
