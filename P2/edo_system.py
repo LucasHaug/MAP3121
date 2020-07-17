@@ -42,7 +42,7 @@ def g_function(t, x, y):
 
 
 def main():
-    order = 1
+    order = 4
 
     h = 0.5
     y0 = 0
@@ -55,9 +55,9 @@ def main():
     elif (order == 2):
         second_order(y0, x0, t0, tf, h)
     elif (order == 3):
-        third_order(y0, x0, xf, h)
+        third_order(y0, x0, t0, tf, h)
     elif (order == 4):
-        fouth_order(y0, x0, xf, h)
+        fouth_order(y0, x0, t0, tf, h)
     else:
         print("Calma lá também né")
 
@@ -123,58 +123,72 @@ def second_order(y0, x0, t0, tf, h):
 
 
 
-def third_order(y0, x0, xf, h):
+def third_order(y0, x0, t0, tf, h):
     """
     Runge-Kutta de terceira ordem
     """
 
-    xn = x0
-    yn = y0
+    tn = t0
+    wn = [x0, y0]
 
-    print(f"y({xn}) = {yn}")
+    print(f"tn = {tn} => wn = {wn}")
 
-    num_of_xs = int((xf - x0) / h)
+    num_of_ts = int((tf - t0) / h)
 
-    for _ in range(num_of_xs):
-        k1 = h * f_function(xn, yn)
-        k2 = h * f_function(xn + h / 2, yn + k1 / 2)
-        k3 = h * f_function(xn + 3 * h / 4, yn + 3 * k2 / 4)
+    for _ in range(num_of_ts):
+        k1 = h * np.array([f_function(tn, wn[0], wn[1]), g_function(tn, wn[0], wn[1])])
 
-        ynp1 = yn + 2 * k1 / 9 + k2 / 3 + 4 * k3 / 9
+        k2 = h * np.array([f_function(tn + h / 2, wn[0] + k1[0] / 2, wn[1] + k1[1] / 2),
+                           g_function(tn + h / 2, wn[0] + k1[0] / 2, wn[1] + k1[1] / 2)])
 
-        yn = ynp1
-        xn += h
+        k3 = h * np.array([f_function(tn + 3 * h / 4, wn[0] + 3 * k2[0] / 4, wn[1] + 3 * k2[1] / 4),
+                           g_function(tn + 3 * h / 4, wn[0] + 3 * k2[0] / 4, wn[1] + 3 * k2[1] / 4)])
 
-        print(f"y({xn}) = {yn}")
+        wnp1 = wn + 2 * np.array(k1) / 9 + np.array(k2) / 3 + 4 * np.array(k3) / 9
+
+        wn = np.copy(wnp1)
+        tn += h
+
+        print(f"tn = {tn} => wn = {wn}")
+
+    print(f"x({tn}) = {wn[0]}")
 
 
 
-def fouth_order(y0, x0, xf, h):
+def fouth_order(y0, x0, t0, tf, h):
     """
     Runge-Kutta de quarta ordem
     """
 
-    xn = x0
-    yn = y0
+    tn = t0
+    wn = [x0, y0]
 
-    print(f"y({xn}) = {yn}")
+    print(f"tn = {tn} => wn = {wn}")
 
-    num_of_xs = int((xf - x0) / h)
+    num_of_ts = int((tf - t0) / h)
 
-    for _ in range(num_of_xs):
-        k1 = h * f_function(xn, yn)
-        k2 = h * f_function(xn + h / 2, yn + k1 / 2)
-        k3 = h * f_function(xn + h / 2, yn + k2 / 2)
-        k4 = h * f_function(xn + h, yn + k3)
+    for _ in range(num_of_ts):
+        k1 = h * np.array([f_function(tn, wn[0], wn[1]), g_function(tn, wn[0], wn[1])])
+
+        k2 = h * np.array([f_function(tn + h / 2, wn[0] + k1[0] / 2, wn[1] + k1[1] / 2),
+                           g_function(tn + h / 2, wn[0] + k1[0] / 2, wn[1] + k1[1] / 2)])
+
+        k3 = h * np.array([f_function(tn + h / 2, wn[0] + k2[0] / 2, wn[1] + k2[1] / 2),
+                           g_function(tn + h / 2, wn[0] + k2[0] / 2, wn[1] + k2[1] / 2)])
+
+        k4 = h * np.array([f_function(tn + h, wn[0] + k3[0], wn[1] + k3[1]),
+                           g_function(tn + h, wn[0] + k3[0], wn[1] + k3[1])])
 
         print(f"k1 = {k1}, k2 = {k2}, k3 = {k3}, k4 = {k4}")
 
-        ynp1 = yn + (k1 + 2 * k2 + 2 * k3 + k4) / 6
+        wnp1 = wn + (np.array(k1) + 2 * np.array(k2) + 2 * np.array(k3) + np.array(k4)) / 6
 
-        yn = ynp1
-        xn += h
+        wn = np.copy(wnp1)
+        tn += h
 
-        print(f"y({xn}) = {yn}")
+        print(f"tn = {tn} => wn = {wn}")
+
+    print(f"x({tn}) = {wn[0]}")
 
 
 #################################################
