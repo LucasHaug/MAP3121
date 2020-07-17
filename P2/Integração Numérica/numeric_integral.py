@@ -7,15 +7,12 @@ from scipy.special import roots_legendre
 ### Change for each problem
 #################################################
 
-def f_function(t, integral_min, integral_max):
+def f_function(x):
     """
     Função f a ser integrada
     """
 
-    x = t * (integral_max - integral_min) / 2 + (integral_max + integral_min) / 2
-
-    # f em função de x
-    result = (np.exp(x))
+    result = (np.sin(x)) / x
 
     return result
 
@@ -26,18 +23,18 @@ def f_function(t, integral_min, integral_max):
 
 
 def main():
-    num_of_points = 2
-    integral_max = 10
-    integral_min = 5
+    num_of_points = 3
+    integral_max = 1
+    integral_min = 0
 
-    solve(num_of_points, integral_max, integral_min)
+    gaussian_quadrature(num_of_points, integral_max, integral_min)
 
 
 #################################################
 ### Methods functions
 #################################################
 
-def solve(num_of_points, integral_max, integral_min):
+def gaussian_quadrature(num_of_points, integral_max, integral_min):
     """
     Quadratura Gaussiana
     """
@@ -48,7 +45,9 @@ def solve(num_of_points, integral_max, integral_min):
     result = 0
 
     for i in range(len(x_array)):
-        result += w_array[i] * f_function(x_array[i], integral_min, integral_max)
+        t = x_array[i] * (integral_max - integral_min) / 2 + (integral_max + integral_min) / 2
+
+        result += w_array[i] * f_function(t)
 
     result *= ((integral_max - integral_min) / 2)
 
