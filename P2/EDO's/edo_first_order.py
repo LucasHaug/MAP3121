@@ -3,40 +3,31 @@
 import numpy as np
 
 #################################################
-### Change for each problem
-#################################################
-
-def f_function(x, y):
-    """
-    f(x, y) = y'
-    """
-
-    result = y - x
-
-    return result
-
-
-#################################################
 ### Main Function
 #################################################
 
 
 def main():
-    order = 1
+    # Important => f(x, y) = y'
+    f_function = lambda x, y: y - x
 
+   # Method order
+    order = 4
+
+    # Parameters
     h = 0.2
     x0 = 0
     xf = 1
     y0 = 2
 
     if (order == 1):
-        euler_method(y0, x0, xf, h)
+        euler_method(y0, x0, xf, h, f_function)
     elif (order == 2):
-        modified_euler_method(y0, x0, xf, h)
+        modified_euler_method(y0, x0, xf, h, f_function)
     elif (order == 3):
-        runge_kutta_third_order(y0, x0, xf, h)
+        runge_kutta_third_order(y0, x0, xf, h, f_function)
     elif (order == 4):
-        runge_kutta_fourth_order(y0, x0, xf, h)
+        runge_kutta_fourth_order(y0, x0, xf, h, f_function)
     else:
         print("Calma lá também né")
 
@@ -45,7 +36,7 @@ def main():
 ### Methods functions
 #################################################
 
-def euler_method(y0, x0, xf, h):
+def euler_method(y0, x0, xf, h, f_function):
     """
     Método de Euler, método de primeira ordem
     """
@@ -70,7 +61,7 @@ def euler_method(y0, x0, xf, h):
         print(f"y({xn}) = {yn}")
 
 
-def modified_euler_method(y0, x0, xf, h):
+def modified_euler_method(y0, x0, xf, h, f_function):
     """
     Método de Euler modificado, método de segunda ordem
     """
@@ -99,7 +90,7 @@ def modified_euler_method(y0, x0, xf, h):
 
 
 
-def runge_kutta_third_order(y0, x0, xf, h):
+def runge_kutta_third_order(y0, x0, xf, h, f_function):
     """
     Runge-Kutta de terceira ordem
     """
@@ -125,7 +116,7 @@ def runge_kutta_third_order(y0, x0, xf, h):
 
 
 
-def runge_kutta_fourth_order(y0, x0, xf, h):
+def runge_kutta_fourth_order(y0, x0, xf, h, f_function):
     """
     Runge-Kutta de quarta ordem
     """

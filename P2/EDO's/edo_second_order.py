@@ -3,7 +3,7 @@
 import numpy as np
 
 #################################################
-### Change for each problem
+### Main Function
 #################################################
 
 """
@@ -17,47 +17,31 @@ g(t, x, y) = y'
 
 """
 
-def f_function(t, x, y):
-    """
-    f(t, x, y) = x'
-    """
-
-    result = y
-
-    return result
-
-def g_function(t, x, y):
-    """
-    g(t, x, y) = y'
-    """
-
-    result = -t * y - x
-
-    return result
-
-
-#################################################
-### Main Function
-#################################################
-
-
 def main():
-    order = 4
+    # Important => f(t, x, y) = x'
+    f_function = lambda t, x, y: y
 
-    h = 0.5
+    # Important => g(t, x, y) = y'
+    g_function = lambda t, x, y: -t * y - x
+
+   # Method order
+    order = 2
+
+    # Parameters
+    h = 1
     y0 = 0
     x0 = 1
     t0 = 0
     tf = 1
 
     if (order == 1):
-        euler_method(y0, x0, t0, tf, h)
+        euler_method(y0, x0, t0, tf, h, f_function, g_function)
     elif (order == 2):
-        modified_euler_method(y0, x0, t0, tf, h)
+        modified_euler_method(y0, x0, t0, tf, h, f_function, g_function)
     elif (order == 3):
-        runge_kutta_third_order(y0, x0, t0, tf, h)
+        runge_kutta_third_order(y0, x0, t0, tf, h, f_function, g_function)
     elif (order == 4):
-        runge_kutta_fourth_order(y0, x0, t0, tf, h)
+        runge_kutta_fourth_order(y0, x0, t0, tf, h, f_function, g_function)
     else:
         print("Calma lá também né")
 
@@ -66,7 +50,7 @@ def main():
 ### Methods functions
 #################################################
 
-def euler_method(y0, x0, t0, tf, h):
+def euler_method(y0, x0, t0, tf, h, f_function, g_function):
     """
     Método de Euler, método de primeira ordem
     """
@@ -93,7 +77,7 @@ def euler_method(y0, x0, t0, tf, h):
     print(f"x({tn}) = {wn[0]}")
 
 
-def modified_euler_method(y0, x0, t0, tf, h):
+def modified_euler_method(y0, x0, t0, tf, h, f_function, g_function):
     """
     Método de Euler modificado, método de segunda ordem
     """
@@ -123,7 +107,7 @@ def modified_euler_method(y0, x0, t0, tf, h):
 
 
 
-def runge_kutta_third_order(y0, x0, t0, tf, h):
+def runge_kutta_third_order(y0, x0, t0, tf, h, f_function, g_function):
     """
     Runge-Kutta de terceira ordem
     """
@@ -155,7 +139,7 @@ def runge_kutta_third_order(y0, x0, t0, tf, h):
 
 
 
-def runge_kutta_fourth_order(y0, x0, t0, tf, h):
+def runge_kutta_fourth_order(y0, x0, t0, tf, h, f_function, g_function):
     """
     Runge-Kutta de quarta ordem
     """

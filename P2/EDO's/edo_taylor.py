@@ -6,15 +6,6 @@ import numpy as np
 ### Change for each problem
 #################################################
 
-def f_function(x, y):
-    """
-    f(x, y) = y´
-    """
-
-    result = y - x**2 + 1
-
-    return result
-
 def f_derivative(x, y, derivative_order):
     """
     Derivada de f em relacao a x, ao se derivar
@@ -40,21 +31,26 @@ def f_derivative(x, y, derivative_order):
 
 
 def main():
+    # Important => f(x, y) = y'
+    f_function = lambda x, y: y - x**2 + 1
+
+   # Method order
     order = 4
 
+    # Parameters
     h = 0.2
     x0 = 0
     xf = 2
     y0 = 0.5
 
-    solve(y0, x0, xf, h, order)
+    solve(y0, x0, xf, h, order, f_function)
 
 
 #################################################
 ### Methods functions
 #################################################
 
-def solve(y0, x0, xf, h, order):
+def solve(y0, x0, xf, h, order, f_function):
     """
     Método de Euler, método de primeira ordem
     """
