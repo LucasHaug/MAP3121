@@ -20,6 +20,8 @@ def main():
 
     result = solve(x_to_calculate, x_values, div_differences_matrix)
 
+    result = sym.nsimplify(result)
+
     print(f"O resultado é de {result}")
 
 
