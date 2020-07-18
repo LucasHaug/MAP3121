@@ -38,19 +38,19 @@ def main():
     order = 4
 
     # Parameters
-    h = 0.2
+    step = 0.2
     x0 = 0
     xf = 2
     y0 = 0.5
 
-    solve(y0, x0, xf, h, order, f_function)
+    solve(y0, x0, xf, step, order, f_function)
 
 
 #################################################
 ### Methods functions
 #################################################
 
-def solve(y0, x0, xf, h, order, f_function):
+def solve(y0, x0, xf, step, order, f_function):
     """
     Método de Euler, método de primeira ordem
     """
@@ -60,18 +60,18 @@ def solve(y0, x0, xf, h, order, f_function):
 
     print(f"y({xn}) = {yn}")
 
-    num_of_xs = int((xf - x0) / h)
+    num_of_xs = int((xf - x0) / step)
 
     for _ in range(num_of_xs):
         t_function = f_function(xn, yn)
 
         for i in range(1, order):
-            t_function += f_derivative(xn, yn, i) * (h**i) / (np.math.factorial(i + 1))
+            t_function += f_derivative(xn, yn, i) * (step**i) / (np.math.factorial(i + 1))
 
-        ynp1 = yn + h * t_function
+        ynp1 = yn + step * t_function
 
         yn = ynp1
-        xn += h
+        xn += step
 
         print(f"y({xn}) = {yn}")
 
