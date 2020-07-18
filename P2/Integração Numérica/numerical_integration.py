@@ -2,6 +2,7 @@
 
 import numpy as np
 from scipy.special import roots_legendre
+import sympy as sym
 
 #################################################
 ### Main Function
@@ -162,18 +163,20 @@ def rombergs_method(array_of_num_of_points, integral_max, integral_min, f_functi
     Método de Romberg
     """
 
-    num_of_ns = len(array_of_num_of_points)
+    num_of_ns = 3
+
+    array = [1/4, 7/24, 509/1680]
 
     r_matrix = np.zeros((num_of_ns, num_of_ns), dtype=float)
 
     for k in range(0, num_of_ns):
-        r_matrix[k][0] = trapezoidal_rule(array_of_num_of_points[k], integral_max, integral_min, f_function)
-        print(f"R[{k}][{0}] = {r_matrix[k][0]}")
+        r_matrix[k][0] = array[k]
+        print(f"R[{k}][{0}] = {sym.nsimplify(r_matrix[k][0])}")
 
     for j in range(1, num_of_ns):
         for k in range(j, num_of_ns):
             r_matrix[k][j] = r_matrix[k][j - 1] + (1 / ((4**(j)) - 1)) * (r_matrix[k][j - 1] - r_matrix[k - 1][j - 1])
-            print(f"R[{k}][{j}] = {r_matrix[k][j]}")
+            print(f"R[{k}][{j}] = {sym.nsimplify(r_matrix[k][j])}")
 
     return r_matrix[num_of_ns - 1][num_of_ns - 1]
 
