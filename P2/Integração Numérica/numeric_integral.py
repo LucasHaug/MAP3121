@@ -10,7 +10,7 @@ from scipy.special import roots_legendre
 
 def main():
     # Method to be used
-    method = ""
+    method = "RM"
 
     # Function to be integrated
     f_function = lambda x: np.exp(x)
@@ -87,7 +87,7 @@ def trapezoidal_rule(num_of_points, integral_max, integral_min, f_function):
 
     result *= (step / 2)
 
-    print(result)
+    return result
 
 
 
@@ -155,7 +155,29 @@ def simpson_rule_error(num_of_points, integral_max, integral_min, f_fourth_deriv
 
     error = (num_of_points / 2) * ((step**5) / 90) * max_f_fourth_deriv
 
-    print(f"Erro = {error}")
+
+
+
+def rombergs_method(array_of_num_of_points, integral_max, integral_min, f_function):
+    """
+    Método de Romberg
+    """
+
+    num_of_ns = len(array_of_num_of_points)
+
+    r_matrix = np.zeros((num_of_ns, num_of_ns), dtype=float)
+
+    for k in range(0, num_of_ns):
+        r_matrix[k][0] = trapezoidal_rule(array_of_num_of_points[k], integral_max, integral_min, f_function)
+        print(f"R[{k}][{0}] = {r_matrix[k][0]}")
+
+    for j in range(1, num_of_ns):
+        for k in range(j, num_of_ns):
+            r_matrix[k][j] = r_matrix[k][j - 1] + (1 / ((4**(j)) - 1)) * (r_matrix[k][j - 1] - r_matrix[k - 1][j - 1])
+            print(f"R[{k}][{j}] = {r_matrix[k][j]}")
+
+    return r_matrix[num_of_ns - 1][num_of_ns - 1]
+
 
 
 #################################################
