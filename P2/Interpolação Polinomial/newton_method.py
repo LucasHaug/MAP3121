@@ -88,7 +88,9 @@ def solve(x_to_calculate, x_values, div_differences_matrix):
 
 def error_calculation(x_to_calculate, x_values, div_differences_matrix):
     """
-    Cálculo do erro
+    Cálculo do erro.
+
+    Aviso: Não tenho certeza se está correto o cálculo.
     """
 
     num_of_devided_diffs = len(div_differences_matrix)
