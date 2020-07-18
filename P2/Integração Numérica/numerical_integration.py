@@ -54,7 +54,7 @@ def gaussian_quadrature(num_of_points, integral_max, integral_min, f_function):
     Quadratura Gaussiana
     """
 
-    x_array, w_array = roots_legendre(num_of_points)
+    x_array, w_array = roots_legendre(num_of_points) # pylint: disable=unbalanced-tuple-unpacking
 
     result = 0
 
