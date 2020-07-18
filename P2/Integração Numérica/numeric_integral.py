@@ -13,38 +13,36 @@ def main():
     method = "RM"
 
     # Function to be integrated
-    f_function = lambda x: np.exp(x)
+    f_function = lambda x: np.sin(x)
 
     # For errors calculation
     f_second_derivative = lambda x: np.exp(x)
     f_fourth_derivative = lambda x: np.exp(x)
 
     # Parameters
-    integral_max = 1
+    integral_max = np.pi
     integral_min = 0
     step = 0.1
     num_of_points = int((integral_max - integral_min) / step)
     # num_of_points = 10
+    array_of_num_of_points = [1, 2, 4, 8, 16]
 
     if (method == "GQ"):
-        gaussian_quadrature(num_of_points, integral_max, integral_min, f_function)
+        result = gaussian_quadrature(num_of_points, integral_max, integral_min, f_function)
+        error = "'Não sei'"
     elif (method == "TR"):
-        trapezoidal_rule(num_of_points, integral_max, integral_min, f_function)
-        trapezoidal_rule_error(num_of_points, integral_max, integral_min, f_second_derivative)
+        result = trapezoidal_rule(num_of_points, integral_max, integral_min, f_function)
+        error = trapezoidal_rule_error(num_of_points, integral_max, integral_min, f_second_derivative)
     elif (method == "SR"):
-        simpson_rule(num_of_points, integral_max, integral_min, f_function)
-        simpson_rule_error(num_of_points, integral_max, integral_min, f_fourth_derivative)
+        result = simpson_rule(num_of_points, integral_max, integral_min, f_function)
+        error = simpson_rule_error(num_of_points, integral_max, integral_min, f_fourth_derivative)
+    elif (method == "RM"):
+        result = rombergs_method(array_of_num_of_points, integral_max, integral_min, f_function)
+        error = "'Não sei'"
     else:
-        print("Por quadratura gaussiana:")
-        gaussian_quadrature(num_of_points, integral_max, integral_min, f_function)
+        print("Tente novamente")
 
-        print("Pela regra dos trapézios:")
-        trapezoidal_rule(num_of_points, integral_max, integral_min, f_function)
-        trapezoidal_rule_error(num_of_points, integral_max, integral_min, f_function)
-
-        print("Pela regra de Simpson:")
-        simpson_rule(num_of_points, integral_max, integral_min, f_function)
-        simpson_rule_error(num_of_points, integral_max, integral_min, f_fourth_derivative)
+    print(f"Pelo método {method}, resultado de {result}, com erro de {error}")
 
 
 #################################################
@@ -67,7 +65,7 @@ def gaussian_quadrature(num_of_points, integral_max, integral_min, f_function):
 
     result *= ((integral_max - integral_min) / 2)
 
-    print(result)
+    return result
 
 
 
@@ -108,7 +106,7 @@ def trapezoidal_rule_error(num_of_points, integral_max, integral_min, f_second_d
 
     error = num_of_points * ((step**3) / 12) * max_f_second_deriv
 
-    print(f"Erro = {error}")
+    return error
 
 
 
@@ -134,7 +132,7 @@ def simpson_rule(num_of_points, integral_max, integral_min, f_function):
 
     result *= (step / 3)
 
-    print(result)
+    return result
 
 
 
@@ -155,6 +153,7 @@ def simpson_rule_error(num_of_points, integral_max, integral_min, f_fourth_deriv
 
     error = (num_of_points / 2) * ((step**5) / 90) * max_f_fourth_deriv
 
+    return error
 
 
 
