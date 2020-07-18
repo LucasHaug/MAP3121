@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import numpy as np
+import sympy as sym
 
 #################################################
 ### Main Function
@@ -49,6 +50,8 @@ def divided_differences(x_values, f_values):
 
 
 def solve(x_to_calculate, x_values, div_differences_matrix):
+    x_sym = sym.symbols('x')
+
     # Get divided differences coefficients
     num_of_coefficients = len(div_differences_matrix)
 
@@ -59,14 +62,23 @@ def solve(x_to_calculate, x_values, div_differences_matrix):
 
     # Get result
     result = div_differences_diag[0]
+    polynomial = div_differences_diag[0]
 
     for i in range(1, num_of_coefficients):
         x_product = 1
+        x_sym_product = 1
 
         for j in range(0, i):
             x_product *= (x_to_calculate - x_values[j])
+            x_sym_product *= (x_sym - x_values[j])
+
 
         result += div_differences_diag[i] * x_product
+        polynomial += div_differences_diag[i] * x_sym_product
+
+    polynomial = sym.nsimplify(polynomial)
+    polynomial = sym.simplify(polynomial)
+    print(f'p({x_sym})={polynomial}')
 
     return result
 
