@@ -32,9 +32,9 @@ def f_derivative(x, y, derivative_order):
 
 def main():
     # Functions
-    f_function = lambda x, y: y - x**2 + 1
-    f_approx = lambda x, y: y - x**2 + 1
-    f_np1_derivative = lambda x, y: y - x**2 + 1
+    f_function = lambda x: (0.5)**x
+    f_approx = lambda x: -x**3/16 + 7*x**2/24 - 11*x/16 + 23/24
+    f_np1_derivative = lambda x: x
 
     # Parameters
     step = 0.2
