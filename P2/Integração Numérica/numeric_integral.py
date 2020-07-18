@@ -12,7 +12,7 @@ def f_function(x):
     Função f a ser integrada
     """
 
-    result = (np.exp(x))
+    result = np.exp(x)
 
     return result
 
@@ -26,15 +26,15 @@ def f_derivative(x, derivative_order):
     """
 
     if (derivative_order == 1):
-        result = 0
+        result = np.exp(x)
     elif (derivative_order == 2):
         result = np.exp(x)
     elif (derivative_order == 3):
-        result = 0
+        result = np.exp(x)
     elif (derivative_order == 4):
-        result = 0
+        result = np.exp(x)
     elif (derivative_order == 5):
-        result = 0
+        result = np.exp(x)
     else:
         result = 0
 
@@ -47,16 +47,32 @@ def f_derivative(x, derivative_order):
 
 
 def main():
+    method = ""
+
     integral_max = 1
     integral_min = 0
-    step = 0.25
-    # num_of_points = int((integral_max - integral_min) / step)
-    num_of_points = 10
+    step = 0.1
+    num_of_points = int((integral_max - integral_min) / step)
+    # num_of_points = 10
 
-    gaussian_quadrature(num_of_points, integral_max, integral_min)
+    if (method == "GQ"):
+        gaussian_quadrature(num_of_points, integral_max, integral_min)
+    elif (method == "TR"):
+        trapezoidal_rule(num_of_points, integral_max, integral_min)
+        trapezoidal_rule_error(num_of_points, integral_max, integral_min)
+    elif (method == "SR"):
+        simpson_rule(num_of_points, integral_max, integral_min)
+    else:
+        print("Por quadratura gaussiana:")
+        gaussian_quadrature(num_of_points, integral_max, integral_min)
 
-    trapezoidal_rule(num_of_points, integral_max, integral_min)
-    trapezoidal_rule_error(num_of_points, integral_max, integral_min)
+        print("Pela regra dos trapézios:")
+        trapezoidal_rule(num_of_points, integral_max, integral_min)
+        trapezoidal_rule_error(num_of_points, integral_max, integral_min)
+
+        print("Pela regra de Simpson:")
+        simpson_rule(num_of_points, integral_max, integral_min)
+        simpson_rule_error(num_of_points, integral_max, integral_min)
 
 
 #################################################
@@ -69,7 +85,6 @@ def gaussian_quadrature(num_of_points, integral_max, integral_min):
     """
 
     x_array, w_array = roots_legendre(num_of_points)
-    print(roots_legendre(num_of_points))
 
     result = 0
 
@@ -106,7 +121,7 @@ def trapezoidal_rule(num_of_points, integral_max, integral_min):
 
 def trapezoidal_rule_error(num_of_points, integral_max, integral_min):
     """
-    Cálculo do erro para a regra das trapézios
+    Cálculo do erro máximo para a regra das trapézios
     """
 
     step = (integral_max - integral_min) / num_of_points
@@ -120,6 +135,53 @@ def trapezoidal_rule_error(num_of_points, integral_max, integral_min):
             max_f_second_deriv = f_second_deriv_value
 
     error = num_of_points * ((step**3) / 12) * max_f_second_deriv
+
+    print(f"Erro = {error}")
+
+
+
+def simpson_rule(num_of_points, integral_max, integral_min):
+    """
+    Regra de Simpson
+    """
+
+    if ((num_of_points + 1) % 2 ==0):
+        num_of_points -= 1
+
+    step = (integral_max - integral_min) / num_of_points
+
+    result = f_function(integral_min)
+
+    for i in range(1, num_of_points):
+        if (i % 2 == 1):
+            result += (4 * f_function(integral_min + i * step))
+        else:
+            result += (2 * f_function(integral_min + i * step))
+
+    result += f_function(integral_max)
+
+    result *= (step / 3)
+
+    print(result)
+
+
+
+def simpson_rule_error(num_of_points, integral_max, integral_min):
+    """
+    Cálculo do erro máximo para a regra de simpson
+    """
+
+    step = (integral_max - integral_min) / num_of_points
+
+    max_f_fourth_deriv = abs(f_derivative(integral_min, 4))
+
+    for i in range(1, num_of_points + 1):
+        f_second_deriv_value = abs(f_derivative(integral_min + i * step, 4))
+
+        if (f_second_deriv_value > max_f_fourth_deriv):
+            max_f_fourth_deriv = f_second_deriv_value
+
+    error = (num_of_points / 2) * ((step**5) / 90) * max_f_fourth_deriv
 
     print(f"Erro = {error}")
 
