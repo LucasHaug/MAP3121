@@ -6,7 +6,7 @@ import numpy as np
 ### Change for each problem
 #################################################
 
-def f_derivative(x, y, derivative_order):
+def f_derivative(x, derivative_order):
     """
     Derivada de f em relacao a x, ao se derivar
     uma parcela que tenha, não se pode "eliminar"
@@ -14,11 +14,11 @@ def f_derivative(x, y, derivative_order):
     """
 
     if (derivative_order == 1):
-        result = y - x**2 + 1 - 2 * x
+        result = -x**2 + 1 - 2 * x
     elif (derivative_order == 2):
-        result = y - x**2 - 1 - 2 * x
+        result = -x**2 - 1 - 2 * x
     elif (derivative_order == 3):
-        result = y - x**2 - 1 - 2 * x
+        result = -x**2 - 1 - 2 * x
     else:
         result = 0
 
