@@ -10,9 +10,12 @@ import sympy as sym
 
 def main():
     # Parameters
-    x_to_calculate = 0
-    x_values = [-1, 0, 2]
-    f_values = [4, 1, -1]
+    x = sym.symbols('x')
+    f_function = (1/2)**x
+
+    x_to_calculate = 1/3
+    x_values = [-2, -1, 1, 2]
+    f_values = [4, 2, 0.5, 0.25]
 
     div_differences_matrix = divided_differences(x_values, f_values)
 
@@ -23,6 +26,14 @@ def main():
     result = sym.nsimplify(result)
 
     print(f"O resultado é de {result}")
+
+    if 'f_function' in locals():
+        error = error_calculation_with_f(x_to_calculate, x_values, div_differences_matrix, f_function)
+    else:
+        error = error_calculation(x_to_calculate, x_values, div_differences_matrix)
+
+
+    print(f"Erro de {error}")
 
 
 
@@ -88,19 +99,39 @@ def solve(x_to_calculate, x_values, div_differences_matrix):
 
 def error_calculation(x_to_calculate, x_values, div_differences_matrix):
     """
-    Cálculo do erro.
-
-    Aviso: Não tenho certeza se está correto o cálculo.
+    Cálculo do erro sem a função f.
     """
 
-    num_of_devided_diffs = len(div_differences_matrix)
+    x_product = div_differences_matrix[-1][-1]
 
-    x_product = div_differences_matrix[num_of_devided_diffs - 1][num_of_devided_diffs - 1]
+    for i in range(0, len(x_values) - 1):
+        x_product *= (x_to_calculate - x_values[i])
+
+    error = x_product
+
+    return error
+
+
+
+def error_calculation_with_f(x_to_calculate, x_values, div_differences_matrix, f_function):
+    """
+    Cálculo do erro tendo a função f.
+    """
+
+    np1 = len(x_values)
+
+    x = sym.symbols('x')
+    f_np1_derivative = sym.diff(f_function, x, np1)
+    f_np1_derivative = sym.lambdify(x, f_np1_derivative)
+
+    max_f_np1_derivative = max(map(f_np1_derivative, x_values))
+
+    x_product = max_f_np1_derivative
 
     for x in x_values:
         x_product *= (x_to_calculate - x)
 
-    error = x_product
+    error = x_product / (np.math.factorial(np1))
 
     return error
 
