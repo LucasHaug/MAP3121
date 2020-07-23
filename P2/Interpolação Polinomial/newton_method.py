@@ -104,7 +104,7 @@ def error_calculation(x_to_calculate, x_values, div_differences_matrix):
 
     x_product = div_differences_matrix[-1][-1]
 
-    for i in range(0, len(x_values) - 1):
+    for i in range(0, len(div_differences_matrix) - 1):
         x_product *= (x_to_calculate - x_values[i])
 
     error = x_product
