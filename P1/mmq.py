@@ -58,6 +58,7 @@ def dot_product(u_vector, v_vector):
     """
 
     decimal.getcontext().prec = PRECSION
+    decimal.getcontext().rounding = ROUNDING_MODE
 
     result = 0
 
@@ -77,6 +78,7 @@ def generate_linear_system(f_array, g_matrix):
     """
 
     decimal.getcontext().prec = PRECSION
+    decimal.getcontext().rounding = ROUNDING_MODE
 
     num_of_coeficients = len(g_matrix)
 
@@ -107,6 +109,7 @@ def matrix_decomposition(a_matrix):
     """
 
     decimal.getcontext().prec = PRECSION
+    decimal.getcontext().rounding = ROUNDING_MODE
 
     matrix_dimension = len(a_matrix)
 
@@ -140,6 +143,7 @@ def lu_decomposition(a_matrix):
     """
 
     decimal.getcontext().prec = PRECSION
+    decimal.getcontext().rounding = ROUNDING_MODE
 
     matrix_dimension = len(a_matrix)
 
@@ -176,6 +180,7 @@ def solve_linear_system(a_matrix, b_array):
     """
 
     decimal.getcontext().prec = PRECSION
+    decimal.getcontext().rounding = ROUNDING_MODE
 
     matrix_dimension = len(a_matrix)
 
@@ -219,6 +224,7 @@ def f_approximation(g_matrix, coeficients_array):
     """
 
     decimal.getcontext().prec = PRECSION
+    decimal.getcontext().rounding = ROUNDING_MODE
 
     num_of_xs = len(g_matrix[0])
     num_of_coeficients = len(g_matrix)
@@ -243,6 +249,7 @@ def squared_error_calculation(f_array, g_matrix, coeficients_array):
     """
 
     decimal.getcontext().prec = PRECSION
+    decimal.getcontext().rounding = ROUNDING_MODE
 
     num_of_xs = len(f_array)
 
