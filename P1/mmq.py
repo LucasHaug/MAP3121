@@ -25,22 +25,14 @@ def main():
     decimal.getcontext().prec = PRECSION
     decimal.getcontext().rounding = ROUNDING_MODE
 
-    values_array = [decimal.Decimal('3.245'), decimal.Decimal('2.579'), decimal.Decimal('1.912'), decimal.Decimal('1.245'), decimal.Decimal('0.579')]
+    values_array = [decimal.Decimal('1'), decimal.Decimal('2'), decimal.Decimal('3'), decimal.Decimal('1'), decimal.Decimal('2'), decimal.Decimal('1')]
 
-    coef_matrix = [[decimal.Decimal('1'), decimal.Decimal('2')],
-                   [decimal.Decimal('1'), decimal.Decimal('4')],
-                   [decimal.Decimal('1'), decimal.Decimal('6')],
-                   [decimal.Decimal('1'), decimal.Decimal('8')],
-                   [decimal.Decimal('1'), decimal.Decimal('10')]]
-
-    # values_array = [decimal.Decimal('1'), decimal.Decimal('2'), decimal.Decimal('3'), decimal.Decimal('1'), decimal.Decimal('2'), decimal.Decimal('1')]
-
-    # coef_matrix = [[decimal.Decimal('1'), decimal.Decimal('0'), decimal.Decimal('0')],
-    #                [decimal.Decimal('0'), decimal.Decimal('1'), decimal.Decimal('0')],
-    #                [decimal.Decimal('0'), decimal.Decimal('0'), decimal.Decimal('1')],
-    #                [decimal.Decimal('-1'), decimal.Decimal('1'), decimal.Decimal('0')],
-    #                [decimal.Decimal('0'), decimal.Decimal('-1'), decimal.Decimal('1')],
-    #                [decimal.Decimal('-1'), decimal.Decimal('0'), decimal.Decimal('1')]]
+    coef_matrix = [[decimal.Decimal('1'), decimal.Decimal('0'), decimal.Decimal('0')],
+                   [decimal.Decimal('0'), decimal.Decimal('1'), decimal.Decimal('0')],
+                   [decimal.Decimal('0'), decimal.Decimal('0'), decimal.Decimal('1')],
+                   [decimal.Decimal('-1'), decimal.Decimal('1'), decimal.Decimal('0')],
+                   [decimal.Decimal('0'), decimal.Decimal('-1'), decimal.Decimal('1')],
+                   [decimal.Decimal('-1'), decimal.Decimal('0'), decimal.Decimal('1')]]
 
     coef_matrix = np.transpose(coef_matrix)
 
