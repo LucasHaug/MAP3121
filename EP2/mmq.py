@@ -37,8 +37,7 @@ def generate_linear_system(f_array, g_matrix):
 def matrix_decomposition(a_matrix):
     """
     Decompõe uma matrix A simétrica em três matrizes L, D e
-    Lt, retornando apenas dois vetores que representam as
-    matrizes L e D.
+    Lt, retornando as duas matrizes L e D.
 
     Aviso: A matriz A é mudada dentro da função.
     """
