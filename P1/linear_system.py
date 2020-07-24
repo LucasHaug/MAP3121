@@ -41,9 +41,13 @@ def main():
 
     beta = sassenfeld_criteria(a_matrix, False)
 
-    gauss_seidel_method(a_matrix, x_initial_kick_array, b_array, 1, PRECSION)
+    x_result_array = gauss_seidel_method(a_matrix, x_initial_kick_array, b_array, 1, PRECSION)
 
     gauss_seidel_error(beta, a_matrix, x_initial_kick_array, b_array, 1, PRECSION)
+
+    max_error = float(max(abs(x_result_array - x_initial_kick_array)))
+
+    min_num_of_iterations(0.001, beta, max_error)
 
 
 #################################################
@@ -310,6 +314,13 @@ def gauss_seidel_error(beta, a_matrix, x_initial_kick_array, b_array, iterations
     error = (beta**iterations) * float(max_diff) / (1 - beta)
 
     print(f"Erro de {error}")
+
+
+
+def min_num_of_iterations(max_error, beta, max_x_diff):
+    k = np.ceil(np.log((max_error / max_x_diff) * (1 - beta)) / np.log(beta))
+
+    print(f"Número mínimo de iterações: {k}")
 
 
 
