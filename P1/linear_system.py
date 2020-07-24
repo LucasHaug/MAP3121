@@ -47,8 +47,6 @@ def matrix_decomposition(a_matrix, precision):
     """
     Decompõe uma matrix A simétrica em três matrizes L, D e
     Lt, retornando as duas matrizes L e D.
-
-    Aviso: A matriz A é mudada dentro da função.
     """
 
     decimal.getcontext().prec = precision
@@ -56,22 +54,24 @@ def matrix_decomposition(a_matrix, precision):
 
     matrix_dimension = len(a_matrix)
 
+    a_matrix_copy = np.copy(a_matrix)
+
     l_matrix = np.full((matrix_dimension, matrix_dimension), decimal.Decimal('0'))
     d_matrix = np.full((matrix_dimension, matrix_dimension), decimal.Decimal('0'))
 
     for f in range(0, matrix_dimension):
         # Generate L matrix
         for l in range(f, matrix_dimension):
-            l_matrix[l][f] = a_matrix[l][f] / a_matrix[f][f]
+            l_matrix[l][f] = a_matrix_copy[l][f] / a_matrix_copy[f][f]
 
         # Generate the new matrix A
         for c in range(0, matrix_dimension):
             for l in range(f + 1, matrix_dimension):
-                a_matrix[l][c] = a_matrix[l][c] - l_matrix[l][f] * a_matrix[f][c]
+                a_matrix_copy[l][c] = a_matrix_copy[l][c] - l_matrix[l][f] * a_matrix_copy[f][c]
 
     # Generate D matrix
     for l in range(0, matrix_dimension):
-        d_matrix[l][l] = a_matrix[l][l]
+        d_matrix[l][l] = a_matrix_copy[l][l]
 
     return l_matrix, d_matrix
 
