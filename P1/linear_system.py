@@ -3,6 +3,7 @@
 import numpy as np
 import sympy as sym
 import decimal
+from itertools import permutations
 
 #################################################
 ### Context control
@@ -36,7 +37,7 @@ def main():
 
     calc_residue(x_approx_array, a_matrix, b_array, PRECSION)
 
-    sassenfeld_criteria(a_matrix)
+    sassenfeld_criteria_iterative(a_matrix)
 
 
 #################################################
@@ -187,13 +188,10 @@ def calc_residue(x_approx_array, a_matrix, b_array, precision):
 
 
 
-def sassenfeld_criteria(a_matrix):
+def sassenfeld_criteria(a_matrix, print_betas):
     matrix_dimension = len(a_matrix)
 
     β_array = np.full(matrix_dimension, 1, dtype=float)
-
-    print(f"a_matrix = {a_matrix}")
-
 
     for i in range(0, matrix_dimension):
         β_array[i] *= 1 / abs(float(a_matrix[i][i]))
@@ -203,27 +201,57 @@ def sassenfeld_criteria(a_matrix):
         for j in range(i + 1, matrix_dimension):
             next_elements_sum += abs(float(a_matrix[i][j]))
 
-        print(f"next_elements_sum = {next_elements_sum}")
-
         prev_elements_sum = 0
 
         for j in range(0, i):
             prev_elements_sum += (β_array[j] * abs(float(a_matrix[i][j])))
 
-        print(f"prev_elements_sum = {prev_elements_sum}")
-
-
         β_array[i] *= (prev_elements_sum + next_elements_sum)
-
-
-    for i in range(0, matrix_dimension):
-        print(f"β{i + 1} = {sym.nsimplify(β_array[i])}\n")
 
     βmax = max(β_array)
 
-    print(f"βmax = {βmax}")
+    if (print_betas == True):
+        for i in range(0, matrix_dimension):
+            print(f"β{i + 1} = {sym.nsimplify(β_array[i])}\n")
+
+        print(f"βmax = {βmax}")
 
     return βmax
+
+
+
+def sassenfeld_criteria_iterative(a_matrix):
+    matrix_dimension = len(a_matrix)
+
+    perm = list(permutations(list(range(0, matrix_dimension))))
+    num_of_perms = len(perm)
+
+    a_matrix_perm = np.copy(a_matrix)
+
+    β_max_array = []
+
+    for i in range(num_of_perms):
+        for j in range(num_of_perms):
+            for k in range(matrix_dimension):
+                for l in range(matrix_dimension):
+                    a_matrix_perm[k][l] = a_matrix[perm[i][k]][perm[j][l]]
+
+            βmax = sassenfeld_criteria(a_matrix_perm, False)
+
+            if (βmax < 1):
+                print(f"Matriz permutada: \n{a_matrix_perm}")
+
+                print(f"βmax = {sym.nsimplify(βmax)}")
+
+                β_max_array.append(βmax)
+
+    if (β_max_array == []):
+        print(f"A matriz não satisfaz o critério de Sassenfeld")
+    else:
+        best_βmax = min(β_max_array)
+        print(f"Melhor βmax = {sym.nsimplify(best_βmax)}")
+
+        return best_βmax
 
 
 
