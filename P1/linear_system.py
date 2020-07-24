@@ -39,9 +39,11 @@ def main():
 
     calc_residue(x_approx_array, a_matrix, b_array, PRECSION)
 
-    sassenfeld_criteria_iterative(a_matrix)
+    beta = sassenfeld_criteria(a_matrix, False)
 
     gauss_seidel_method(a_matrix, x_initial_kick_array, b_array, 1, PRECSION)
+
+    gauss_seidel_error(beta, a_matrix, x_initial_kick_array, b_array, 1, PRECSION)
 
 
 #################################################
@@ -285,6 +287,29 @@ def gauss_seidel_method(a_matrix, x_initial_kick_array, b_array, iterations, pre
 
     print(f"Os valores de x são: {x_result_array}")
 
+    return x_result_array
+
+
+
+def gauss_seidel_error(beta, a_matrix, x_initial_kick_array, b_array, iterations, precision):
+    prev_x_iteration = x_initial_kick_array
+
+    max_diff_array = []
+
+    for i in range(1, iterations + 1):
+        current_x_iteration = gauss_seidel_method(a_matrix, x_initial_kick_array, b_array, i, precision)
+
+        iterations_difference = abs(current_x_iteration - prev_x_iteration)
+
+        max_diff_array.append(max(iterations_difference))
+
+        prev_x_iteration = np.copy(current_x_iteration)
+
+    max_diff = max(max_diff_array)
+
+    error = (beta**iterations) * float(max_diff) / (1 - beta)
+
+    print(f"Erro de {error}")
 
 
 
