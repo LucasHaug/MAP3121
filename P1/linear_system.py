@@ -295,6 +295,39 @@ def gauss_seidel_method(a_matrix, x_initial_kick_array, b_array, iterations, pre
 
 
 
+def jacobi_method(a_matrix, x_initial_kick_array, b_array, iterations, precision):
+    decimal.getcontext().prec = precision
+    decimal.getcontext().rounding = ROUNDING_MODE
+
+    num_of_xs = len(x_initial_kick_array)
+
+    x_result_array = np.copy(x_initial_kick_array)
+    prev_x_result_array = np.copy(x_initial_kick_array)
+
+    for _ in range(iterations):
+        for i in range(num_of_xs):
+            x_result_array[i] = 1 / a_matrix[i][i]
+
+            next_elements_sum = 0
+
+            for j in range(i + 1, num_of_xs):
+                next_elements_sum += (a_matrix[i][j] * prev_x_result_array[j])
+
+            prev_elements_sum = 0
+
+            for j in range(0, i):
+                prev_elements_sum += (a_matrix[i][j] * prev_x_result_array[j])
+
+            x_result_array[i] *= (b_array[i] - prev_elements_sum - next_elements_sum)
+
+        prev_x_result_array = np.copy(x_result_array)
+
+    print(f"Os valores de x são: {x_result_array}")
+
+    return x_result_array
+
+
+
 def gauss_seidel_error(beta, a_matrix, x_initial_kick_array, b_array, iterations, precision):
     prev_x_iteration = x_initial_kick_array
 
