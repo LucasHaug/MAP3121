@@ -36,6 +36,7 @@ def main():
 
     calc_residue(x_approx_array, a_matrix, b_array, PRECSION)
 
+    sassenfeld_criteria(a_matrix)
 
 
 #################################################
@@ -184,6 +185,45 @@ def calc_residue(x_approx_array, a_matrix, b_array, precision):
 
     print(f"Correção:\n{correction_array}")
 
+
+
+def sassenfeld_criteria(a_matrix):
+    matrix_dimension = len(a_matrix)
+
+    β_array = np.full(matrix_dimension, 1, dtype=float)
+
+    print(f"a_matrix = {a_matrix}")
+
+
+    for i in range(0, matrix_dimension):
+        β_array[i] *= 1 / abs(float(a_matrix[i][i]))
+
+        next_elements_sum = 0
+
+        for j in range(i + 1, matrix_dimension):
+            next_elements_sum += abs(float(a_matrix[i][j]))
+
+        print(f"next_elements_sum = {next_elements_sum}")
+
+        prev_elements_sum = 0
+
+        for j in range(0, i):
+            prev_elements_sum += (β_array[j] * abs(float(a_matrix[i][j])))
+
+        print(f"prev_elements_sum = {prev_elements_sum}")
+
+
+        β_array[i] *= (prev_elements_sum + next_elements_sum)
+
+
+    for i in range(0, matrix_dimension):
+        print(f"β{i + 1} = {sym.nsimplify(β_array[i])}\n")
+
+    βmax = max(β_array)
+
+    print(f"βmax = {βmax}")
+
+    return βmax
 
 
 
