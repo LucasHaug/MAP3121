@@ -163,14 +163,12 @@ def rombergs_method(array_of_num_of_points, integral_max, integral_min, f_functi
     Método de Romberg
     """
 
-    num_of_ns = 3
-
-    array = [1/4, 7/24, 509/1680]
+    num_of_ns = len(array_of_num_of_points)
 
     r_matrix = np.zeros((num_of_ns, num_of_ns), dtype=float)
 
     for k in range(0, num_of_ns):
-        r_matrix[k][0] = array[k]
+        r_matrix[k][0] = trapezoidal_rule(array_of_num_of_points[k], integral_max, integral_min, f_function)
         print(f"R[{k}][{0}] = {sym.nsimplify(r_matrix[k][0])}")
 
     for j in range(1, num_of_ns):
