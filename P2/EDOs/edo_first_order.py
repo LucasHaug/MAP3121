@@ -13,7 +13,7 @@ def main():
     f_function = lambda x, y: y - x
 
    # Method order
-    order = 4
+    order = 5
 
     # Parameters
     step = 0.2
