@@ -6,6 +6,6 @@ pyparsing==2.4.7
 python-dateutil==2.8.1
 six==1.15.0
 scipy==1.5.1
-mpmath==1.1.0
+mpmath==1.3.0
 sympy==1.6.1
 
